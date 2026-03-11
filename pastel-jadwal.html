@@ -393,9 +393,35 @@
     .tl-item { grid-template-columns: 90px 1fr; padding: 8px 14px; }
     .day-card-header { padding: 12px 14px; }
   }
+
+  .back-nav {
+    position: fixed;
+    top: 14px; left: 16px;
+    z-index: 999;
+  }
+  .back-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #9a8aaa;
+    text-decoration: none;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(201,184,232,0.35);
+    border-radius: 20px;
+    padding: 6px 14px;
+    transition: all 0.2s;
+  }
+  .back-nav a:hover { color: #3a3240; border-color: rgba(201,184,232,0.7); background: rgba(255,255,255,0.9); }
+
 </style>
 </head>
 <body>
+<div class="back-nav"><a href="pastel-home.html">← home</a></div>
 
 <div class="hero">
   <div class="hero-tag">✦ personal guide</div>

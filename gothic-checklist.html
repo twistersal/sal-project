@@ -382,9 +382,35 @@
     .header h1 { font-size: 2.2rem; }
     .day-tab { padding: 7px 11px; font-size: 0.75rem; }
   }
+
+  .back-nav {
+    position: fixed;
+    top: 14px; left: 16px;
+    z-index: 999;
+  }
+  .back-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #7a6e6a;
+    text-decoration: none;
+    background: rgba(17,13,15,0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(139,26,47,0.3);
+    border-radius: 2px;
+    padding: 6px 14px;
+    transition: all 0.2s;
+  }
+  .back-nav a:hover { color: #e8e0d8; border-color: rgba(139,26,47,0.7); }
+
 </style>
 </head>
 <body>
+<div class="back-nav"><a href="gothic-home.html">← home</a></div>
 <div class="wrapper">
 
   <div class="header">

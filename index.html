@@ -3,98 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>my corner — choose your path</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<title>my corner — dark codex</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
+  :root{--black:#0a0809;--surface:#110d0f;--border:rgba(139,26,47,.25);--border-bright:rgba(139,26,47,.6);--crimson:#8b1a2f;--crimson-light:#b8344e;--text:#e8e0d8;--text-muted:#7a6e6a;--text-dim:#3a3038;}
   *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{width:100%;height:100%;overflow:hidden;cursor:none;}
-  .cursor{position:fixed;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;background:white;transition:transform .1s ease;}
-  .split{display:flex;width:100%;height:100%;position:relative;}
-  .side{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;position:relative;overflow:hidden;transition:flex .7s cubic-bezier(.77,0,.18,1);cursor:none;}
-  .split:has(.side-gothic:hover) .side-pastel{flex:.35;}
-  .split:has(.side-pastel:hover) .side-gothic{flex:.35;}
-  .side-pastel{background:#faf7f2;}
-  .side-pastel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(201,184,232,.35) 0%,transparent 55%),radial-gradient(ellipse at 80% 70%,rgba(242,196,184,.3) 0%,transparent 55%);transition:opacity .5s;}
-  .side-gothic{background:#0a0809;}
-  .side-gothic::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 30%,rgba(139,26,47,.2) 0%,transparent 55%),radial-gradient(ellipse at 20% 70%,rgba(60,20,80,.2) 0%,transparent 55%);transition:opacity .5s;}
-  .divider-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(150,120,120,.4),transparent);z-index:100;pointer-events:none;}
-  .side-content{position:relative;z-index:2;text-align:center;transition:transform .5s cubic-bezier(.34,1.2,.64,1),opacity .4s;}
-  .side:hover .side-content{transform:scale(1.02);}
-  .split:has(.side-gothic:hover) .side-pastel .side-content{opacity:.35;transform:scale(.95);}
-  .split:has(.side-pastel:hover) .side-gothic .side-content{opacity:.35;transform:scale(.95);}
-  /* Pastel */
-  .pastel-label{font-family:'DM Sans',sans-serif;font-size:.65rem;letter-spacing:4px;text-transform:uppercase;color:#b89aaa;margin-bottom:16px;}
-  .pastel-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;line-height:1.1;color:#3a3240;margin-bottom:12px;}
-  .pastel-title em{font-style:italic;color:#d4858a;}
-  .pastel-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:#9a8aaa;margin-bottom:28px;line-height:1.6;}
-  .pastel-btn{display:inline-block;padding:12px 28px;border:1.5px solid rgba(201,184,232,.6);border-radius:30px;font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:#3a3240;text-decoration:none;background:rgba(255,255,255,.6);backdrop-filter:blur(8px);transition:all .3s cubic-bezier(.34,1.2,.64,1);}
-  .pastel-btn:hover{background:rgba(201,184,232,.3);border-color:rgba(201,184,232,.9);transform:translateY(-3px);}
-  /* Gothic */
-  .gothic-eyebrow{font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;letter-spacing:3px;color:#8b1a2f;margin-bottom:16px;}
-  .gothic-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;letter-spacing:4px;text-transform:uppercase;line-height:1.1;color:#e8e0d8;margin-bottom:12px;}
-  .gothic-title span{color:#8b1a2f;}
-  .gothic-desc{font-family:'Crimson Pro',serif;font-style:italic;font-size:.95rem;color:#7a6e6a;margin-bottom:28px;line-height:1.6;}
-  .gothic-btn{display:inline-block;padding:12px 28px;border:1px solid rgba(139,26,47,.5);border-radius:2px;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:#e8e0d8;text-decoration:none;background:rgba(139,26,47,.1);transition:all .3s ease;position:relative;overflow:hidden;}
-  .gothic-btn::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:#8b1a2f;transform:scaleY(0);transition:transform .3s ease;transform-origin:bottom;}
-  .gothic-btn:hover{border-color:rgba(139,26,47,.9);background:rgba(139,26,47,.2);}
-  .gothic-btn:hover::before{transform:scaleY(1);}
-  /* Floaties */
-  .floats{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-  .petal{position:absolute;animation:petalFloat linear infinite;opacity:0;}
-  @keyframes petalFloat{0%{transform:translateY(110%) rotate(0deg);opacity:0}5%{opacity:.5}95%{opacity:.3}100%{transform:translateY(-20%) rotate(360deg);opacity:0}}
-  .sym{position:absolute;color:#8b1a2f;animation:symFall linear infinite;opacity:0;font-size:.7rem;}
-  @keyframes symFall{0%{transform:translateY(-10%) rotate(0deg);opacity:0}8%{opacity:.25}92%{opacity:.15}100%{transform:translateY(110%) rotate(180deg);opacity:0}}
-  /* Badge */
-  .center-badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:200;pointer-events:none;animation:pulse 3s ease-in-out infinite;}
-  @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
-  .badge-circle{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#faf7f2 50%,#0a0809 50%);border:2px solid rgba(150,120,120,.3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 30px rgba(0,0,0,.3);}
-  /* Animations */
-  .side-content{animation:contentIn 1s cubic-bezier(.34,1.2,.64,1) both;}
-  .side-pastel .side-content{animation-delay:.3s;}
-  .side-gothic .side-content{animation-delay:.5s;}
-  @keyframes contentIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-  @media(max-width:600px){
-    .split{flex-direction:column;}
-    .side,.split:has(.side-gothic:hover) .side-pastel,.split:has(.side-pastel:hover) .side-gothic{flex:1 !important;}
-    .divider-line{left:0;right:0;top:50%;bottom:auto;width:100%;height:1px;}
-    html,body{cursor:auto;}
-    .cursor{display:none;}
-  }
+  body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+  .glow{position:fixed;border-radius:50%;pointer-events:none;filter:blur(80px);}
+  .glow-1{width:600px;height:600px;background:radial-gradient(circle,rgba(139,26,47,.12),transparent 70%);top:-200px;right:-150px;animation:breathe 8s ease-in-out infinite alternate;}
+  .glow-2{width:400px;height:400px;background:radial-gradient(circle,rgba(60,20,80,.15),transparent 70%);bottom:-100px;left:-100px;animation:breathe 10s ease-in-out infinite alternate-reverse;}
+  @keyframes breathe{from{opacity:.6;transform:scale(1)}to{opacity:1;transform:scale(1.1)}}
+  .symbol{position:fixed;pointer-events:none;color:var(--crimson);animation:fall linear infinite;opacity:0;font-size:.7rem;}
+  @keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:0}8%{opacity:.3}92%{opacity:.15}100%{transform:translateY(110vh) rotate(180deg);opacity:0}}
+  .container{position:relative;z-index:10;text-align:center;padding:24px 20px;max-width:460px;width:100%;}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);text-decoration:none;margin-bottom:20px;opacity:0;animation:up .6s .05s ease both;border:1px solid var(--border);border-radius:2px;padding:5px 12px;transition:all .2s;}
+  .back-btn:hover{color:var(--text);border-color:var(--border-bright);}
+  .ornament{font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--crimson);letter-spacing:8px;margin-bottom:20px;opacity:0;animation:up 1s .1s ease both;}
+  h1{font-family:'Cinzel',serif;font-size:clamp(2rem,7vw,3rem);font-weight:900;letter-spacing:4px;text-transform:uppercase;line-height:1.1;margin-bottom:6px;opacity:0;animation:up 1s .2s cubic-bezier(.34,1.2,.64,1) both;}
+  h1 span{display:block;font-size:.45em;font-weight:400;letter-spacing:10px;color:var(--crimson-light);margin-top:4px;}
+  .tagline{font-family:'Crimson Pro',serif;font-style:italic;font-size:.95rem;color:var(--text-muted);margin-bottom:28px;opacity:0;animation:up .8s .35s ease both;}
+  .divider{display:flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;animation:up .7s .3s ease both;}
+  .divider::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--crimson));}
+  .divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--crimson),transparent);}
+  .divider span{color:var(--crimson);font-size:.7rem;letter-spacing:4px;}
+  .today{display:inline-block;border:1px solid var(--border);border-radius:2px;padding:5px 16px;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:28px;opacity:0;animation:up .7s .4s ease both;}
+  .cards{display:flex;flex-direction:column;gap:12px;margin-bottom:36px;}
+  .card-link{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px 22px;text-decoration:none;color:var(--text);transition:all .3s ease;opacity:0;position:relative;overflow:hidden;text-align:left;}
+  .card-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--crimson);transform:scaleY(0);transition:transform .3s ease;transform-origin:bottom;}
+  .card-link::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(139,26,47,.06),rgba(60,20,80,.04));opacity:0;transition:opacity .3s;}
+  .card-link:hover::before{transform:scaleY(1);}
+  .card-link:hover::after{opacity:1;}
+  .card-link:hover{border-color:var(--border-bright);transform:translateX(4px);}
+  .card-link:nth-child(1){animation:up .7s .5s ease both;}
+  .card-link:nth-child(2){animation:up .7s .6s ease both;}
+  .card-num{flex-shrink:0;font-family:'Cinzel',serif;font-size:1.8rem;font-weight:900;color:var(--crimson);opacity:.5;line-height:1;min-width:36px;position:relative;z-index:1;transition:opacity .3s;}
+  .card-link:hover .card-num{opacity:.9;}
+  .card-text{flex:1;position:relative;z-index:1;}
+  .card-title{font-family:'Cinzel',serif;font-size:.85rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;transition:color .3s;}
+  .card-link:hover .card-title{color:#f0e8e0;}
+  .card-desc{font-size:.75rem;color:var(--text-muted);font-family:'Crimson Pro',serif;font-style:italic;line-height:1.5;}
+  .card-arrow{flex-shrink:0;color:var(--text-dim);font-size:.9rem;position:relative;z-index:1;transition:all .3s;}
+  .card-link:hover .card-arrow{color:var(--crimson-light);transform:translateX(4px);}
+  .footer{font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--text-dim);opacity:0;animation:up .6s .75s ease both;}
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="split">
-  <div class="side side-pastel">
-    <div class="floats" id="pFloats"></div>
-    <div class="side-content">
-      <div class="pastel-label">✦ edisi lembut ✦</div>
-      <h1 class="pastel-title"><em>Soft</em><br>Garden</h1>
-      <p class="pastel-desc">pastel & warm · feminine energy<br>gentle on the eyes, gentle on the soul</p>
-      <a href="pastel/index.html" class="pastel-btn">masuk →</a>
-    </div>
+<div class="glow glow-1"></div><div class="glow glow-2"></div>
+<div class="container">
+  <a href="../index.html" class="back-btn">← ganti tema</a>
+  <div class="ornament">✦ ✦ ✦</div>
+  <h1>Dark Codex<span>personal ritual</span></h1>
+  <p class="tagline">a record of discipline &amp; becoming</p>
+  <div class="divider"><span>† ✦ †</span></div>
+  <div class="today" id="todayDate"></div>
+  <div class="cards">
+    <a href="jadwal.html" class="card-link">
+      <div class="card-num">I</div>
+      <div class="card-text"><div class="card-title">Jadwal & Panduan</div><div class="card-desc">jadwal mingguan · workout · diet · skincare · meal prep · postur</div></div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="checklist.html" class="card-link">
+      <div class="card-num">II</div>
+      <div class="card-text"><div class="card-title">Daily Ritual</div><div class="card-desc">centang harian · tracker progress · discipline is devotion</div></div>
+      <span class="card-arrow">→</span>
+    </a>
   </div>
-  <div class="side side-gothic">
-    <div class="floats" id="gFloats"></div>
-    <div class="side-content">
-      <div class="gothic-eyebrow">— edisi gelap —</div>
-      <h1 class="gothic-title">Dark<br><span>Codex</span></h1>
-      <p class="gothic-desc">gothic & minimal · discipline energy<br>forged in silence, refined in shadow</p>
-      <a href="gothic/index.html" class="gothic-btn">enter →</a>
-    </div>
-  </div>
-  <div class="divider-line"></div>
-  <div class="center-badge"><div class="badge-circle">⚖</div></div>
+  <div class="footer">forged in consistency · refined in silence</div>
 </div>
 <script>
-  const cur=document.getElementById('cursor');
-  document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
-  const petals=['🌸','✿','❀','🌷','·','✦'],pc=document.getElementById('pFloats');
-  function sp(){const el=document.createElement('span');el.className='petal';el.textContent=petals[Math.floor(Math.random()*petals.length)];el.style.left=Math.random()*100+'%';el.style.fontSize=(0.5+Math.random()*.8)+'rem';const d=10+Math.random()*12;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*4+'s';pc.appendChild(el);setTimeout(()=>el.remove(),(d+5)*1000);}
-  for(let i=0;i<8;i++)setTimeout(sp,i*700);setInterval(sp,2500);
-  const syms=['✦','†','◆','✧','·','⬡','★'],gc=document.getElementById('gFloats');
-  function ss(){const el=document.createElement('span');el.className='sym';el.textContent=syms[Math.floor(Math.random()*syms.length)];el.style.left=Math.random()*100+'%';const d=10+Math.random()*12;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*3+'s';gc.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
-  for(let i=0;i<8;i++)setTimeout(ss,i*600);setInterval(ss,2500);
+  const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],now=new Date();
+  document.getElementById('todayDate').textContent=`${days[now.getDay()]} · ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const s=['✦','†','◆','✧','·'];
+  function sp(){const el=document.createElement('span');el.className='symbol';el.textContent=s[Math.floor(Math.random()*s.length)];el.style.left=Math.random()*100+'vw';const d=12+Math.random()*14;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*3+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
+  for(let i=0;i<10;i++)setTimeout(sp,i*800);setInterval(sp,3500);
 </script>
 </body>
 </html>

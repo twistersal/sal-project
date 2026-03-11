@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femboy Glow Guide ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6f0;
+    --surface: #fff9f5;
+    --rose: #e8a0a0;
+    --rose-dark: #c97b7b;
+    --blush: #f2c4b8;
+    --peach: #f7ddd3;
+    --sage: #a8bfa8;
+    --text: #3a2e2e;
+    --muted: #9a8080;
+    --accent: #d4858a;
+    --border: #f0ddd8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #f9e8e0 0%, #fce4ec 40%, #f3e5f5 100%);
+    padding: 56px 32px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(232,160,160,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(196,155,210,0.12) 0%, transparent 50%);
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--rose-dark);
+    background: rgba(232,160,160,0.18);
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--text);
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero p {
+    font-size: 14px;
+    color: var(--muted);
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* TABS */
+  .tabs-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+  }
+  .tabs {
+    display: flex;
+    gap: 0;
+    max-width: 780px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 16px 20px;
+    font-size: 12.5px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tab:hover { color: var(--accent); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+  /* CONTENT */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+  .section { display: none; animation: fadeUp 0.35s ease; }
+  .section.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TYPOGRAPHY */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .card-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--peach), var(--blush));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .card-badge {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: rgba(212,133,138,0.12);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ROWS */
+  .row-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+  .row-item:last-child { border-bottom: none; }
+  .row-dot {
+    width: 6px; height: 6px;
+    background: var(--rose);
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .row-label { font-weight: 500; color: var(--text); min-width: 100px; }
+  .row-desc { color: var(--muted); flex: 1; }
+
+  /* SCHEDULE GRID */
+  .schedule {
+    display: grid;
+    gap: 8px;
+  }
+  .day-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .day-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 2px;
+  }
+  .day-content { font-size: 13px; color: var(--text); line-height: 1.7; }
+  .day-content strong { font-weight: 500; }
+  .rest-day { color: var(--muted); font-style: italic; font-size: 13px; }
+
+  /* INGREDIENT CHIP */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 400;
+    border: 1px solid;
+  }
+  .chip-rose { background: rgba(232,160,160,0.1); color: var(--rose-dark); border-color: rgba(232,160,160,0.3); }
+  .chip-sage { background: rgba(168,191,168,0.1); color: #5a7a5a; border-color: rgba(168,191,168,0.35); }
+  .chip-blue { background: rgba(150,180,220,0.1); color: #5070a0; border-color: rgba(150,180,220,0.35); }
+
+  /* POSTURE STEPS */
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--rose), var(--accent));
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .step-body h4 { font-size: 14.5px; font-weight: 500; margin-bottom: 4px; }
+  .step-body p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* NOTE BOX */
+  .note {
+    background: linear-gradient(135deg, rgba(232,160,160,0.08), rgba(212,133,138,0.06));
+    border: 1px solid rgba(232,160,160,0.25);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 16px;
+  }
+  .note strong { color: var(--accent); }
+
+  /* DIET TABLE */
+  .meal-block { margin-bottom: 12px; }
+  .meal-time {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+  .meal-options {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .meal-chip {
+    font-size: 12.5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    color: var(--text);
+  }
+
+  /* SKINCARE ROUTINE */
+  .routine-step {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .routine-step:last-child { border-bottom: none; }
+  .routine-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--rose);
+    line-height: 1;
+    text-align: center;
+  }
+  .routine-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .routine-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .routine-prod { font-size: 12px; color: var(--accent); margin-top: 4px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 28px 0;
+  }
+
+  /* DAY CARD & TIMELINE */
+  .day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .day-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--peach), rgba(242,196,184,0.3));
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .day-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+    min-width: 64px;
+  }
+  .day-note {
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .timeline {
+    padding: 8px 0;
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 10px;
+    padding: 9px 20px;
+    align-items: center;
+    border-bottom: 1px solid rgba(240,221,216,0.5);
+    transition: background 0.15s;
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-item:hover { background: rgba(253,246,240,0.8); }
+  .tl-time {
+    font-size: 11.5px;
+    color: var(--muted);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+  .tl-label {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .tl-class { border-left: 3px solid #b5c8e8; }
+  .tl-workout { border-left: 3px solid var(--rose); background: rgba(232,160,160,0.04); }
+  .tl-meal { border-left: 3px solid var(--sage); }
+  .tl-snack { border-left: 3px solid var(--blush); }
+  @media (max-width: 480px) {
+    .tl-item { grid-template-columns: 90px 1fr; padding: 8px 14px; }
+    .day-card-header { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">✦ personal guide</div>
+  <h1>Your <em>Femboy</em><br>Glow Plan</h1>
+  <p>Workout · Diet · Skincare · Posture — semua yang kamu butuhkan dalam satu tempat</p>
+</div>
+
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('jadwal')">📅 Jadwal</button>
+    <button class="tab" onclick="showTab('mealprep')">🍱 Meal Prep</button>
+    <button class="tab" onclick="showTab('workout')">🩰 Workout</button>
+    <button class="tab" onclick="showTab('cardio')">🚴 Cardio</button>
+    <button class="tab" onclick="showTab('diet')">🥗 Diet</button>
+    <button class="tab" onclick="showTab('skincare')">✨ Skincare</button>
+    <button class="tab" onclick="showTab('posture')">🧘 Postur</button>
+    <button class="tab" onclick="showTab('haircare')">💇 Haircare</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- JADWAL TAB -->
+  <div id="jadwal" class="section active">
+    <h2 class="section-title">Bagan <em>Jadwal</em> Mingguan</h2>
+    <p class="section-subtitle">Menu spesifik tiap makan · semua disesuaikan dengan diet plan & jadwal kuliah</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#b5c8e8;flex-shrink:0"></span>Kuliah</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#e8a0a0;flex-shrink:0"></span>Workout</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#a8bfa8;flex-shrink:0"></span>Makan</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#f2c4b8;flex-shrink:0"></span>Snack</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#c9b8e8;flex-shrink:0"></span>NFT / Artikel</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:12px;height:12px;border-radius:3px;background:#f0d080;flex-shrink:0"></span>Bebas (ML/Komik)</span>
+    </div>
+    <div class="note" style="margin-bottom:20px;padding:12px 16px;">
+      <strong>⭐ = sudah disiapkan saat Meal Prep Minggu</strong> — tinggal panaskan. Produktif dulu → bebas tanpa rasa bersalah!
+    </div>
+
+    <!-- SENIN -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Senin</span><span class="day-note">🩰 Yoga Flow · ✍️ Artikel · 🎮 Bebas malam</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">04:30</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (cuci muka → toner → serum niacinamide → moisturizer → <strong>sunscreen SPF 45</strong> ☀️) — selesai sebelum jam 05:00</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:00–06:00</span><span class="tl-label">😌 Waktu santai pagi — minum air, qur'an/baca, atau rebahan sebentar sebelum sarapan</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">06:00</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Overnight oats ⭐ + 1 telur rebus ⭐ + irisan pisang</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">07:00–08:40</span><span class="tl-label">📚 KWU — sunscreen sudah dari tadi, aman ☀️</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">09:00–10:00</span><span class="tl-label">🩰 Yoga Flow — sun salutation, warrior, hip opener</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:00–10:20</span><span class="tl-label">🚿 Mandi post-workout — bilas keringat · serum sudah meresap sejak jam 04:30 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:20</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> — kulit habis mandi lebih mudah menyerap, 30 detik saja</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:25</span><span class="tl-label">🥤 <strong>Post-workout</strong> — 2 telur rebus ⭐ + air putih 500ml</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">10:30–12:00</span><span class="tl-label">✍️ Nulis Artikel — 1 sesi fokus</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:00</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah ⭐ + ayam panggang jahe kecap ⭐ + tumis bayam bawang putih ⭐</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">14:30</span><span class="tl-label">🍎 <strong>Snack</strong> — Almond segenggam ⭐ + 1 apel</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">15:30–18:00</span><span class="tl-label">📚 Ekologi</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">18:30</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Ikan kembung kukus kecap ⭐ + brokoli kukus ⭐ + nasi merah ⭐</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">19:30–20:30</span><span class="tl-label">📖 Belajar — review kuliah hari ini</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">20:30–22:00</span><span class="tl-label">🎮 ML / Komik — reward, bebas total!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:00</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → serum niacinamide → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- SELASA -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Selasa</span><span class="day-note">💪 Pilates · 🎨 NFT · 🎮 Bebas malam</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">05:00</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (cuci muka → toner → serum → moisturizer → <strong>sunscreen SPF 45</strong> ☀️)</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:30</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Greek yogurt ⭐ + granola + irisan pisang/stroberi</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">07:00–08:00</span><span class="tl-label">💪 Pilates Core + Glute — indoor ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">08:00–08:20</span><span class="tl-label">🚿 Mandi post-workout — bilas keringat · serum sudah meresap sejak jam 05:00 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">08:20</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> — 30 detik, langsung lanjut sarapan</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">08:25</span><span class="tl-label">🥤 2 telur rebus ⭐ + air putih</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">11:00–11:50</span><span class="tl-label">📚 Mikrotektum</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:00</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah ⭐ + tempe orek kecap ⭐ + lalapan timun tomat + sambal</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">13:00–14:40</span><span class="tl-label">📚 BJE</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">15:00</span><span class="tl-label">🍌 <strong>Snack</strong> — 1 pisang + 1 sdm peanut butter</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">15:40–17:20</span><span class="tl-label">📚 Sumber Daya Genetik</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">18:00</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Tahu kukus saus tiram ⭐ + tumis wortel buncis ⭐ + kentang rebus ⭐</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">19:00–20:30</span><span class="tl-label">🎨 NFT — bikin/editing karya</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">20:30–21:15</span><span class="tl-label">📖 Belajar singkat</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">21:15–22:30</span><span class="tl-label">🎮 ML / Komik — reward!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:30</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → AHA exfoliant → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- RABU -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Rabu</span><span class="day-note">🚶 Cardio sore · 🎨 NFT atau ✍️ Artikel · 🎮 Bebas malam</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">04:30</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (cuci muka → toner → serum → moisturizer → <strong>sunscreen SPF 45</strong> ☀️) — kuliah jam 07:00, sudah terlindungi jauh sebelumnya!</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:00</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Nasi merah ⭐ + telur ceplok + tumis kangkung</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">07:00–09:50</span><span class="tl-label">📚 Ekologi</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:00</span><span class="tl-label">🥤 Snack ringan — pisang + air putih · istirahat sebentar sebelum kuliah siang</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:00</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah ⭐ + ayam suwir bumbu kuning ⭐ + capcay sayuran ⭐</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">13:00–14:40</span><span class="tl-label">📚 Genetika Tumbuhan</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">15:15</span><span class="tl-label">🧃 <strong>Snack pre-workout</strong> — Greek yogurt ⭐ + madu · bahan bakar buat jalan sore</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">15:40–17:20</span><span class="tl-label">📚 Biologi Laut</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">17:30–18:30</span><span class="tl-label">🚶 Cardio — <strong>Jalan kaki 5km</strong> sore · UV sudah turun, udara lebih adem 🌤️ · zone 2, sambil dengerin musik/podcast</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">18:30–18:45</span><span class="tl-label">🚿 Mandi post-workout — bersih-bersih setelah kuliah + jalan seharian · serum sudah meresap sejak jam 04:30 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">18:45</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> — sudah tidak perlu sunscreen, matahari sudah turun</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">19:15</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Ikan goreng tipis ⭐ + brokoli kukus ⭐ + nasi merah ⭐</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">20:00–21:15</span><span class="tl-label">🎨 NFT atau ✍️ Artikel — pilih satu!</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">21:15–22:30</span><span class="tl-label">🎮 Bebas!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:30</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → vitamin C serum → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- KAMIS -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Kamis</span><span class="day-note">💪 Pilates · 📦 Jastip · 🎨 NFT · 🎮 Bebas malam</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">05:00</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (cuci muka → toner → serum niacinamide → moisturizer → <strong>sunscreen SPF 45</strong> ☀️)</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:30</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Roti gandum 2 lembar + telur dadar bayam ⭐ + 1 buah jeruk</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">09:40–10:30</span><span class="tl-label">📚 Mikrotektum</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">10:45–11:45</span><span class="tl-label">💪 Pilates Sculpt — hip thrust, sumo squat, fire hydrant</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">11:45–12:00</span><span class="tl-label">🚿 Mandi post-workout + 2 telur rebus ⭐ — serum sudah meresap sejak jam 05:00 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">12:00</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> — 30 detik sebelum makan siang</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:30</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah ⭐ + tahu bacem ⭐ + tempe goreng ⭐ + lalapan — isi penuh sebelum lab!</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">13:10–16:00</span><span class="tl-label">📚 Mikrotektum (praktikum)</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">16:00</span><span class="tl-label">🧃 <strong>Snack</strong> — Kacang mete ⭐ + teh hijau tanpa gula</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">17:00–18:00</span><span class="tl-label">📦 Jastip (kalau ada) atau rebahan dulu</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">18:30</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Ayam panggang ⭐ + tumis buncis wortel ⭐ + nasi merah ⭐</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">19:30–21:00</span><span class="tl-label">🎨 NFT — sesi kreatif utama minggu ini</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">21:00–22:30</span><span class="tl-label">🎮 ML / Komik — reward penuh!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:30</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → serum niacinamide → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- JUMAT -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Jumat</span><span class="day-note">🧘 Yoga Yin · ✍️ Artikel · 🎮 Malam bebas panjang</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">05:00</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (cuci muka → toner → serum → moisturizer → <strong>sunscreen SPF 45</strong> ☀️)</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:30</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Overnight oats ⭐ + irisan alpukat + biji chia + madu</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">09:00–10:00</span><span class="tl-label">🧘 Yoga Yin — recovery, pose tahan 3–5 menit</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:00–10:20</span><span class="tl-label">🚿 Mandi post-workout — bilas keringat · serum sudah meresap sejak jam 05:00 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:20</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> — lanjut nulis artikel segar</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">11:00–12:30</span><span class="tl-label">✍️ Artikel — pagi Jumat paling produktif!</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:30</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah ⭐ + ikan sarden/tuna kaleng tumis tomat bawang + lalapan</span></div>
+        <div class="tl-item tl-class"><span class="tl-time">13:20–15:00</span><span class="tl-label">📚 Bioinformatika</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">15:30</span><span class="tl-label">🍌 <strong>Snack</strong> — Pisang + greek yogurt ⭐</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">18:30</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Bebas pilihan favorit yang sehat 🌸 tetap ada protein + sayur ya!</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">19:30–23:00</span><span class="tl-label">🎮 Malam bebas panjang — ML, komik, scrolling. No guilt!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">23:00</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → <strong>AHA exfoliant</strong> (Jumat malam cocok, tidak kerja keras besok) → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- SABTU -->
+    <div class="day-card">
+      <div class="day-card-header"><span class="day-name">Sabtu</span><span class="day-note">🚴 Cardio · 🎨 NFT marathon · 📦 Jastip · 🛒 Belanja bahan</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">05:00</span><span class="tl-label">⏰ <strong>Bangun</strong> — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> + <strong>sunscreen SPF 45</strong> ☀️ (cardio outdoor, wajib!)</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">05:30–07:30</span><span class="tl-label">😌 Santai pagi — sarapan pelan-pelan, tidak buru-buru</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">07:30</span><span class="tl-label">🥣 <strong>Sarapan</strong> — Roti gandum 2 lembar + telur orak-arik bayam + irisan tomat + 1 jeruk</span></div>
+        <div class="tl-item tl-workout"><span class="tl-time">09:00–10:00</span><span class="tl-label">🚶 Cardio — <strong>Jalan kaki 5km</strong> outdoor ☀️ · pace santai ~12 menit/km · zone 2, bisa sambil dengerin musik/podcast</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:00–10:20</span><span class="tl-label">🚿 Mandi post-workout — bilas keringat + sisa sunscreen outdoor · serum sudah meresap sejak jam 05:00 ✅</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:20</span><span class="tl-label">🧴 Oles <strong>moisturizer tipis</strong> + ☀️ <strong>Reapply sunscreen SPF 45</strong> — cardio outdoor bikin sunscreen terkuras, wajib reapply kalau masih mau keluar siang!</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">10:25</span><span class="tl-label">🥤 Greek yogurt + pisang post-workout</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">11:00–13:00</span><span class="tl-label">🎨 NFT sesi panjang — Sabtu ideal untuk marathon kreatif</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">13:00</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi merah + ayam panggang + capcay — bebas pilih warung/masak</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">14:00–16:00</span><span class="tl-label">📦 Jastip / 🎮 Bebas</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">16:00</span><span class="tl-label">🧃 <strong>Snack</strong> — Kacang mete + buah potong</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">19:00</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Tempe bacem + tahu goreng + sayur bayam bening + nasi merah</span></div>
+        <div class="tl-item tl-snack" style="background:rgba(168,191,168,0.08);border-left:3px solid #a8bfa8;"><span class="tl-time">20:00–21:00</span><span class="tl-label">🛒 <strong>Belanja bahan meal prep</strong> — ke pasar/Indomaret. Besok langsung masak!</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">21:00–22:00</span><span class="tl-label">🎮 Santai malam</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:00</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> + <strong>hair mask</strong> mingguan 🌸 — Micellar water → face wash → toner → vitamin C serum → moisturizer</span></div>
+      </div>
+    </div>
+
+    <!-- MINGGU -->
+    <div class="day-card" style="background:linear-gradient(135deg,rgba(168,191,168,0.06),rgba(242,196,184,0.06));">
+      <div class="day-card-header"><span class="day-name">Minggu</span><span class="day-note">☁️ Rest · 🍱 MEAL PREP · ✍️ Draft · 🎮 Bebas</span></div>
+      <div class="timeline">
+        <div class="tl-item" style="border-left:3px solid #d4b8e8;background:rgba(212,184,232,0.06)"><span class="tl-time">05:30</span><span class="tl-label">⏰ <strong>Bangun</strong> (sedikit lebih santai — rest day!) — Mandi pagi 🚿 → <strong>Full Skincare Pagi</strong> (tanpa sunscreen kalau tidak keluar, cukup moisturizer)</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">06:00–08:30</span><span class="tl-label">😌 Morning slow — kopi/teh, baca, rebahan, tidak ada yang harus dikejar</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">08:30</span><span class="tl-label">🥣 <strong>Brunch</strong> — Telur dadar + roti gandum + alpukat + kopi/teh hijau</span></div>
+        <div class="tl-item tl-workout" style="opacity:0.65;"><span class="tl-time">10:00</span><span class="tl-label">🌿 Stretching + scalp massage 15 menit (opsional)</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">11:00–12:00</span><span class="tl-label">✍️ Draft artikel ringan — 1 jam, tidak perlu sempurna</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">12:00</span><span class="tl-label">🍱 <strong>Makan Siang</strong> — Nasi + lauk bebas pilihan</span></div>
+        <div class="tl-item tl-snack" style="background:rgba(168,191,168,0.1);border-left:3px solid #a8bfa8;"><span class="tl-time">13:00–15:30</span><span class="tl-label">🍱 <strong>MEAL PREP MINGGUAN</strong> — Masak untuk Senin–Jumat. Lihat tab 🍱 Meal Prep untuk panduan step-by-step!</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">15:30–17:00</span><span class="tl-label">🎮 Bebas penuh — ML, komik, tidur siang</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">17:00–17:30</span><span class="tl-label">🌸 Self-care — <strong>haircare + bilas hair mask</strong> + me time</span></div>
+        <div class="tl-item" style="border-left:3px solid #c9b8e8;background:rgba(201,184,232,0.04)"><span class="tl-time">17:30–18:00</span><span class="tl-label">🔄 Cek jadwal minggu depan — rencanain NFT/artikel hari apa</span></div>
+        <div class="tl-item tl-meal"><span class="tl-time">19:00</span><span class="tl-label">🍽️ <strong>Makan Malam</strong> — Hasil meal prep pertama! Ikan + brokoli + nasi merah</span></div>
+        <div class="tl-item" style="border-left:3px solid #f0d080;background:rgba(240,208,128,0.04)"><span class="tl-time">20:00–22:00</span><span class="tl-label">🎮 Malam bebas terakhir sebelum Senin</span></div>
+        <div class="tl-item tl-snack"><span class="tl-time">22:00</span><span class="tl-label">🌙 <strong>Skincare Malam</strong> — Micellar water → face wash → toner → <strong>retinol</strong> (Minggu malam paling ideal) → moisturizer</span></div>
+      </div>
+    </div>
+
+    <div class="note" style="border-left:4px solid var(--accent);padding:14px 16px;">
+      <strong>🧴 Protokol Skincare Final</strong><br><br>
+      <strong>Pagi (04:30–05:30)</strong> → Mandi → full skincare lengkap termasuk sunscreen. Selesai sebelum aktivitas apapun.<br>
+      <strong>Post-workout (semua hari)</strong> → Mandi bilas keringat → oles moisturizer tipis 30 detik. Serum tidak hilang, sudah meresap 2+ jam sebelumnya.<br>
+      <strong>Sabtu khusus</strong> → Reapply sunscreen setelah mandi post-workout cardio outdoor, kalau masih mau keluar siang.<br>
+      <strong>Malam (sebelum tidur)</strong> → Full skincare malam. Serum bergantian: Senin/Kamis niacinamide · Selasa/Jumat AHA · Rabu/Sabtu vitamin C · Minggu retinol.
+    </div>
+  </div>
+
+  <!-- MEAL PREP TAB -->
+  <div id="mealprep" class="section">
+    <h2 class="section-title"><em>Meal Prep</em> Mingguan</h2>
+    <p class="section-subtitle">Minggu jam 13:00–15:30 · ~2,5 jam · hemat waktu & uang sepanjang minggu 🍱</p>
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(168,191,168,0.08),rgba(242,196,184,0.08));border-color:rgba(168,191,168,0.3);">
+      <div class="card-header"><div class="card-icon">💡</div><div class="card-title">Kenapa Meal Prep Minggu?</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Hari paling bebas — tidak ada kuliah, tidak buru-buru.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Masak sekali untuk 5 hari ke depan. Senin–Jumat tinggal panaskan 2 menit.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Tidak perlu masak tiap hari setelah pulang kuliah + praktikum capek.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Hemat uang vs beli tiap hari, dan nutrisi lebih terjaga.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🛒</div><div class="card-title">Daftar Belanja + Takaran — Sabtu Malam</div><div class="card-badge">untuk 5 hari</div></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Semua takaran dihitung untuk <strong>5 hari (Senin–Jumat)</strong>, target ~1.900 kcal/hari, 95g protein. Beli Sabtu malam supaya segar saat masak Minggu.</p>
+
+      <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">🥚 Protein</div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Telur ayam</span>
+        <span class="row-desc"> — <strong>2 tray (20 butir)</strong> · 1 butir ≈ 6g protein · Dipakai: 2 butir/hari post-workout (10 butir) + sarapan/bekal = habis pas</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Ayam fillet/dada</span>
+        <span class="row-desc"> — <strong>600g (mentah)</strong> · 1 porsi = 120g matang ≈ 150g mentah · Untuk 4 hari makan siang/malam yang butuh ayam · ~30g protein/porsi</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Tempe</span>
+        <span class="row-desc"> — <strong>2 papan (~500g total)</strong> · 1 papan ≈ 250g · 1 porsi = 100g · Untuk 3–4 hari makan · ~18g protein/100g</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Tahu putih</span>
+        <span class="row-desc"> — <strong>8–10 biji (~600g)</strong> · 1 biji ≈ 60–70g · 1 porsi = 2 biji = ~130g · Untuk 3–4 hari · ~8g protein/100g</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Ikan kembung/tongkol segar</span>
+        <span class="row-desc"> — <strong>3–4 ekor (~400g)</strong> · 1 ekor ≈ 100–130g daging bersih · Untuk 2–3 hari makan malam · ~22g protein/100g</span>
+      </div></div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">🌾 Karbohidrat</div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Beras merah</span>
+        <span class="row-desc"> — <strong>500g (mentah)</strong> · 1 porsi nasi matang = 150g ≈ 60g beras mentah · 500g → ~12 porsi · Cukup untuk 5 hari (2 porsi/hari = makan siang + malam)</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Oatmeal instan/quick oats</span>
+        <span class="row-desc"> — <strong>250g</strong> · 1 porsi = 50g kering · Untuk 3 hari sarapan overnight oats (Senin, Rabu, Jumat) = 150g · Sisanya cadangan</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Roti gandum</span>
+        <span class="row-desc"> — <strong>1 bungkus (8–10 lembar)</strong> · 2 lembar/hari untuk Selasa, Kamis, Sabtu sarapan = 6 lembar · Sisanya untuk bekal/snack</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Kentang</span>
+        <span class="row-desc"> — <strong>3 biji (~300g)</strong> · 1 porsi = 1 kentang sedang ≈ 100g · Untuk 3 hari variasi pengganti nasi di makan malam</span>
+      </div></div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">🥦 Sayuran</div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Brokoli</span>
+        <span class="row-desc"> — <strong>300g (1 ikat kecil)</strong> · 1 porsi = 100g · Untuk 3 hari · Dikukus batch, simpan kulkas</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Bayam</span>
+        <span class="row-desc"> — <strong>2 ikat (~300g)</strong> · 1 ikat cukup 2 porsi tumis · Susut banyak saat dimasak, jadi beli lebih</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Wortel</span>
+        <span class="row-desc"> — <strong>3 biji (~200g)</strong> · Iris, kukus bersama brokoli · 50g per porsi</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Buncis</span>
+        <span class="row-desc"> — <strong>150g</strong> · 50g per porsi untuk 3 hari · Kukus bersama batch sayur</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Tomat & timun</span>
+        <span class="row-desc"> — <strong>4 tomat + 2 timun</strong> · Untuk lalapan segar, tidak perlu dimasak · Simpan kulkas utuh, potong saat makan</span>
+      </div></div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">🍌 Buah & Snack</div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Pisang</span>
+        <span class="row-desc"> — <strong>1 sisir (~7–8 buah)</strong> · 1 buah/hari untuk post-workout atau snack · Simpan suhu kamar</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Apel</span>
+        <span class="row-desc"> — <strong>5 biji</strong> · 1 buah/hari untuk snack · Simpan kulkas supaya tahan lebih lama</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Kacang almond atau mete</span>
+        <span class="row-desc"> — <strong>150g</strong> · 1 porsi snack = 30g (segenggam kecil) · Bagi ke 5 plastik zip-lock kecil saat prep · ~170 kcal/30g, lemak sehat</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Greek yogurt</span>
+        <span class="row-desc"> — <strong>5 cup (150g/cup)</strong> · Beli yang plain/unsweetened · 1 cup/hari untuk sarapan atau snack · ~15g protein/cup</span>
+      </div></div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin:16px 0 10px;">🧄 Bumbu & Lain-lain</div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Bawang putih</span>
+        <span class="row-desc"> — <strong>1 siung (5–6 biji)</strong> · Dipakai untuk marinasi ayam, tumisan, saus. Geprek + cincang kasar.</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Kecap manis</span>
+        <span class="row-desc"> — <strong>1 botol kecil</strong> · Marinasi ayam (2 sdm) + tempe orek (1 sdm) + ikan kukus (1 sdm) = habis dalam 2 minggu</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot"></div><div>
+        <span class="row-label">Minyak goreng</span>
+        <span class="row-desc"> — <strong>cukup 2–3 sdm untuk semua</strong> · Pakai sesedikit mungkin · Prioritaskan kukus/panggang, goreng hanya untuk tempe/tahu</span>
+      </div></div>
+
+      <div style="margin-top:16px;padding:12px;background:rgba(168,191,168,0.1);border-radius:8px;font-size:13px;line-height:1.7;">
+        💸 <strong>Estimasi total belanja: Rp 130–170k</strong> untuk 5 hari penuh · Lebih murah dari 5 hari beli makan di luar (±Rp 30k/hari × 3 makan = Rp 450k)
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Takaran Per Kontainer (1 hari)</div><div class="card-badge">panduan plating</div></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Ini referensi isi <strong>1 kontainer makan siang/malam</strong> supaya tidak kurang tidak lebih dari target kalori.</p>
+      <div class="row-item"><div class="row-dot" style="background:#b5c8e8"></div><div>
+        <span class="row-label">Nasi merah</span>
+        <span class="row-desc"> — <strong>150g matang</strong> ≈ 1 centong penuh · ~175 kcal · jangan ditumpuk tinggi, rata saja</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot" style="background:#e8a0a0"></div><div>
+        <span class="row-label">Protein utama (ayam/ikan/tahu/tempe)</span>
+        <span class="row-desc"> — <strong>100–130g matang</strong> ≈ 1 potong dada ayam / 1 ekor ikan kecil / 2 biji tahu / 1 potong tempe ukuran telapak tangan</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot" style="background:#a8bfa8"></div><div>
+        <span class="row-label">Sayuran</span>
+        <span class="row-desc"> — <strong>100–150g</strong> ≈ 1 genggam besar brokoli/bayam/wortel · Kalau kurang mengenyangkan, tambah sayur bebas — kalorinya kecil</span>
+      </div></div>
+      <div class="row-item"><div class="row-dot" style="background:#f2c4b8"></div><div>
+        <span class="row-label">Total per kontainer</span>
+        <span class="row-desc"> — <strong>~500–600 kcal</strong> · Dikali 2 kontainer/hari (siang + malam) = 1.000–1.200 kcal · Sisanya dari sarapan + snack</span>
+      </div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">⏱️</div><div class="card-title">Urutan Masak Minggu (13:00–15:30)</div></div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>13:00 — Cuci & potong semua bahan (20 menit)</h4>
+          <p>Potong brokoli jadi kuntum · iris wortel · petik bayam · potong tahu & tempe. Siapkan semuanya dulu sebelum mulai masak agar tidak panik di tengah jalan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>13:20 — Masak nasi merah di rice cooker (biarkan otomatis ~45 menit)</h4>
+          <p>500g beras merah = cukup untuk 5 hari. Nyalakan dulu, lalu kerjakan yang lain selagi nasi masak sendiri.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>13:25 — Rebus telur batch (12 menit)</h4>
+          <p>Rebus 8–10 telur sekaligus · 10 menit setelah air mendidih = matang sempurna. Simpan di kulkas dengan kulit tetap, tahan 5–7 hari. Ambil 2 butir tiap post-workout atau sarapan.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>13:40 — Panggang ayam batch (25–30 menit)</h4>
+          <p>Marinasi ayam fillet: bawang putih + kecap manis + garam. Panggang di teflon kering, bolak-balik hingga matang. Bagi jadi 5 porsi, simpan di kontainer terpisah.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>14:15 — Goreng/kukus tahu & buat tempe orek (15 menit)</h4>
+          <p>Tahu: goreng kering tanpa tepung atau kukus. Tempe orek: iris tipis, goreng kering, tambah kecap + bawang putih. Siapkan 4–5 porsi masing-masing.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>14:35 — Kukus sayuran batch (10 menit)</h4>
+          <p>Kukus brokoli + wortel + buncis sekaligus, 5–7 menit saja — jangan terlalu lembek. Simpan tanpa saus, tambah bumbu saat makan supaya tetap segar lebih lama.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h4>14:50 — Kukus ikan (15 menit)</h4>
+          <p>Beri sedikit kecap + jahe + bawang putih. Kukus 10–12 menit. Simpan 2–3 porsi untuk Senin–Rabu. Ikan segar lebih baik tidak disimpan lebih dari 3 hari.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-body">
+          <h4>15:10 — Packing ke kontainer (20 menit)</h4>
+          <p>Bagi nasi ke 5 kontainer berlabel Senin–Jumat. Pisahkan lauk per hari sesuai jadwal. Kontainer Kamis–Jumat masuk freezer. Sisanya di kulkas biasa.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">9</div>
+        <div class="step-body">
+          <h4>15:30 — Siapkan overnight oats & snack pack (15 menit)</h4>
+          <p>Isi 3 toples: oat + susu/air + madu → tutup → masuk kulkas (untuk Senin, Rabu, Jumat). Bagi kacang ke 5 plastik kecil untuk snack harian. Selesai! 🎉</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🗂️</div><div class="card-title">Cara Penyimpanan</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Kulkas (3–4 hari)</span><span class="row-desc"> — Nasi + lauk Senin–Rabu · Sayuran kukus · Telur rebus (dengan kulit) · Greek yogurt · Overnight oats</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Freezer (5–7 hari)</span><span class="row-desc"> — Ayam panggang Kamis–Jumat. Pindahkan ke kulkas biasa semalam sebelum dimakan supaya mencair perlahan.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Suhu kamar</span><span class="row-desc"> — Roti gandum · Oatmeal kering · Kacang pack · Buah (pisang, apel). Tidak perlu kulkas.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Peralatan</span><span class="row-desc"> — Cukup 1 teflon · 1 panci kukusan · 1 rice cooker · 5–6 kontainer plastik/kaca · 5 plastik zip-lock kecil</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">⚡</div><div class="card-title">Hari Kuliah — Tinggal Ambil</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sarapan (2 mnt)</span><span class="row-desc"> — Ambil overnight oats dari kulkas → langsung makan. Atau panaskan nasi + lauk di teflon 2 menit.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Bekal (1 mnt)</span><span class="row-desc"> — Masukkan 1 kontainer nasi+lauk+sayur ke tas. Makan antara kelas. Tidak perlu antri warteg saat buru-buru.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Snack (0 mnt)</span><span class="row-desc"> — Kacang pack sudah ada di tas dari tadi malam. Tidak perlu beli jajan impulsif.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Makan malam (3 mnt)</span><span class="row-desc"> — Panaskan 1 porsi. Selesai. Tidak perlu masak dari nol setelah capek kuliah + praktikum seharian.</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>😌 Kalau males meal prep full</strong>: Minimal rebus telur 8 butir + masak nasi merah banyak. Dua hal itu saja sudah menyelamatkan kamu dari makan sembarangan 3–4 hari ke depan. Mulai dari yang kecil dulu! 🌸
+    </div>
+  </div>
+
+  <!-- WORKOUT TAB -->
+  <div id="workout" class="section">
+    <h2 class="section-title">Yoga & <em>Pilates</em></h2>
+    <p class="section-subtitle">Program 5 hari/minggu · ~45–60 menit per sesi · fokus lean, graceful, glute</p>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Jadwal Mingguan</div>
+      </div>
+      <div class="schedule">
+        <div class="day-row">
+          <div class="day-label">Senin</div>
+          <div class="day-content"><strong>Yoga Flow</strong> — Sun salutation A & B (15 min) + warrior series + hip opener (pigeon pose, lizard). Fokus kelenturan & postur.</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Selasa</div>
+          <div class="day-content"><strong>Pilates Core + Glute</strong> — Hundred, roll-up, single leg stretch, bridge, clamshell, side kick series. 3 set × 12–15 reps.</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Rabu</div>
+          <div class="day-content"><strong>Cardio Low-Impact</strong> — lihat tab Cardio 🚴</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Kamis</div>
+          <div class="day-content"><strong>Pilates Sculpt</strong> — Hip thrust bodyweight, glute bridge pulses, donkey kick, fire hydrant, sumo squat slow. 4 set × 15 reps.</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Jumat</div>
+          <div class="day-content"><strong>Yoga Yin</strong> — Pose ditahan 3–5 menit tiap posisi. Dragon pose, butterfly, supported fish, savasana. Recovery + fleksibilitas.</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Sabtu</div>
+          <div class="day-content"><strong>Cardio Low-Impact</strong> — lihat tab Cardio 🚴</div>
+        </div>
+        <div class="day-row">
+          <div class="day-label">Minggu</div>
+          <div class="rest-day">☁️ Rest & stretch ringan saja</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">🍑</div>
+        <div class="card-title">Gerakan Prioritas (Glute & Core)</div>
+        <div class="card-badge">must do</div>
+      </div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Hip Thrust</span><span class="row-desc"> — Terbaik untuk rounded glute. Pakai resistance band di lutut untuk intensitas ekstra.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Glute Bridge Pulse</span><span class="row-desc"> — 30 pulsa kecil di atas = glute terbakar sempurna.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Donkey Kick</span><span class="row-desc"> — Isolasi gluteus maximus. Lakukan lambat, squeeze di atas.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sumo Squat</span><span class="row-desc"> — Stance lebar → inner thigh + glute. Lebih feminin vs back squat.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Pilates Hundred</span><span class="row-desc"> — Core stabilizer tanpa menekan spine. Dasar pilates yang wajib dikuasai.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Clamshell</span><span class="row-desc"> — Hip abductor. Memberi definisi di sisi bokong & pinggul.</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>⚠️ Hindari</strong>: Bench press berat, overhead shoulder press, heavy deadlift — bisa melebarkan bahu & trapezius, merusak proporsi yang diinginkan.
+    </div>
+  </div>
+
+  <!-- CARDIO TAB -->
+  <div id="cardio" class="section">
+    <h2 class="section-title"><em>Cardio</em> Low-Impact</h2>
+    <p class="section-subtitle">2× seminggu (Rabu + Sabtu) · 1 jam · ~5km jalan kaki · bakar lemak tanpa kehilangan kelembutan</p>
+
+    <div class="card" style="background:linear-gradient(135deg,rgba(168,191,168,0.08),rgba(242,196,184,0.08));border-color:rgba(168,191,168,0.3);">
+      <div class="card-header"><div class="card-icon">🚶</div><div class="card-title">Jalan Kaki 5km (Rutinmu)</div><div class="card-badge">⭐ pilihan utama</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Durasi & jarak</span><span class="row-desc"> — <strong>1 jam, ~5km</strong> · pace ~12 menit/km · santai tapi konstan, tidak perlu lari</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Intensitas target</span><span class="row-desc"> — Zone 2 (60–70% max HR) · kamu masih bisa ngobrol atau nyanyi pelan tapi napas sedikit lebih dalam dari biasa</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Perkiraan kalori</span><span class="row-desc"> — ~250–320 kkal/sesi untuk BB 55–60kg · cukup untuk fat loss pelan tapi konsisten</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Bonus</span><span class="row-desc"> — Serotonin + vitamin D pagi hari · mood lebih stabil sepanjang hari · postur membaik karena stride yang benar</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Tips stride</span><span class="row-desc"> — Kepala tegak, bahu rileks, core sedikit dikencangkan, ayunan lengan natural. Jangan nunduk lihat HP terus — postur adalah latihan juga!</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">☀️</div><div class="card-title">Catatan Outdoor — Sunscreen Wajib</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Rabu jam 17:30</span><span class="row-desc"> — Sore setelah kuliah. UV sudah turun drastis, udara lebih adem, jauh lebih nyaman dari siang. Tidak perlu reapply sunscreen setelah mandi.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sabtu jam 09:00</span><span class="row-desc"> — Pagi sebelum UV puncak. Sunscreen sudah dipakai sejak jam 05:00, tapi tetap outdoor 1 jam. Reapply setelah mandi kalau masih ada aktivitas di luar.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Tips tambahan</span><span class="row-desc"> — Bawa minum minimal 500ml · pakai topi atau tudung kalau bisa · rute teduh lebih baik dari rute terbuka penuh</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🔄</div><div class="card-title">Variasi Kalau Bosan Jalan Kaki</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Dance / Zumba di rumah</span><span class="row-desc"> — YouTube gratis, 45–60 menit. Fun factor tinggi, zone 2 mudah dijaga. Bonus: koordinasi tubuh & grace.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Renang</span><span class="row-desc"> — Kalau ada akses kolam. Full body, zero impact, membentuk tubuh ramping tanpa bulk.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sepeda outdoor</span><span class="row-desc"> — Kalau pinjam/sewa. Lebih efisien dari jalan kaki, 5km bisa selesai dalam 20 menit — tambah jarak jadi 10–15km untuk durasi sama.</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>💡 Ingat</strong>: Hindari lari intensitas tinggi terlalu sering — bisa naikkan kortisol dan bikin tubuh "flat" kehilangan kelembutan yang diinginkan. Jalan kaki konsisten 2× seminggu jauh lebih baik dari lari sprint 1× seminggu. Zone 2 adalah sweet spot. 🌸
+    </div>
+  </div>
+
+  <!-- DIET TAB -->
+  <div id="diet" class="section">
+    <h2 class="section-title"><em>Diet</em> Plan</h2>
+    <p class="section-subtitle">Target: lean & toned · protein cukup · tidak kurus tidak gemuk · glow from within</p>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Target Kalori & Makro</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Kalori</span><span class="row-desc"> — ~1800–2000 kkal/hari (slight deficit jika mau lean, maintenance jika sudah ideal)</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Protein</span><span class="row-desc"> — 90–100g/hari (1.5–1.7g × 60kg). Wajib untuk jaga otot & kulit sehat.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Karbo</span><span class="row-desc"> — 200–240g/hari. Pilih complex carb (oat, nasi merah, kentang).</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Lemak sehat</span><span class="row-desc"> — 50–60g/hari. Alpukat, kacang-kacangan, olive oil. Penting untuk hormon & kulit.</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🍽️</div><div class="card-title">Meal Plan Harian</div></div>
+
+      <div class="meal-block">
+        <div class="meal-time">Sarapan (07.00–08.00)</div>
+        <div class="meal-options">
+          <span class="meal-chip">Oatmeal + buah segar + madu</span>
+          <span class="meal-chip">Telur rebus 2 + roti gandum</span>
+          <span class="meal-chip">Greek yogurt + granola</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="meal-block">
+        <div class="meal-time">Snack Pagi (10.00)</div>
+        <div class="meal-options">
+          <span class="meal-chip">Segenggam almond / kacang mete</span>
+          <span class="meal-chip">1 buah apel / pisang</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="meal-block">
+        <div class="meal-time">Makan Siang (12.00–13.00)</div>
+        <div class="meal-options">
+          <span class="meal-chip">Nasi merah + ayam panggang + sayur tumis</span>
+          <span class="meal-chip">Salad protein (tuna/edamame) + quinoa</span>
+          <span class="meal-chip">Tempe/tahu + nasi + lalapan</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="meal-block">
+        <div class="meal-time">Pre-Workout (16.00)</div>
+        <div class="meal-options">
+          <span class="meal-chip">Pisang + peanut butter</span>
+          <span class="meal-chip">Roti gandum + telur</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="meal-block">
+        <div class="meal-time">Makan Malam (19.00)</div>
+        <div class="meal-options">
+          <span class="meal-chip">Ikan + nasi kecil + brokoli kukus</span>
+          <span class="meal-chip">Tofu scramble + sayuran + kentang</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">✅</div><div class="card-title">Foods to Eat More</div><div class="card-badge">prioritas</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Kolagen alami</span><span class="row-desc"> — Kaldu tulang, salmon, telur, buah beri. Kulit kenyal & elastis dari dalam.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Antioksidan</span><span class="row-desc"> — Blueberry, tomat, bayam, teh hijau. Lawan radikal bebas = kulit cerah.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Omega-3</span><span class="row-desc"> — Salmon, sarden, chia seed, walnut. Anti-inflamasi, kulit lembap & glowing.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Air putih</span><span class="row-desc"> — Minimal 2.5 liter/hari. Nomor satu untuk skin clarity dan energi.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Zinc</span><span class="row-desc"> — Tempe, kacang, biji labu. Bantu penyembuhan bekas luka + acne.</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🚫</div><div class="card-title">Foods to Limit</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Gula berlebih</span><span class="row-desc"> — Picu inflamasi, breakout, dan glycation (kulit kusam & kaku).</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Gorengan</span><span class="row-desc"> — Minyak trans = inflamasi kulit, pori-pori tersumbat.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Susu berlebih</span><span class="row-desc"> — Bisa picu jerawat hormonal pada beberapa orang. Coba kurangi, lihat hasilnya.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Alkohol</span><span class="row-desc"> — Dehidrasi kulit, kualitas tidur turun, kulit kusam.</span></div></div>
+    </div>
+  </div>
+
+  <!-- SKINCARE TAB -->
+  <div id="skincare" class="section">
+    <h2 class="section-title"><em>Skincare</em> & Bekas Scabies</h2>
+    <p class="section-subtitle">Semua produk tersedia di Indonesia · Shopee / Tokopedia / Guardian / Watsons · budget-friendly 🇮🇩</p>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🧪</div><div class="card-title">Bahan Aktif Kunci</div><div class="card-badge">ingredients</div></div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Untuk Mencerahkan Bekas Luka (Hyperpigmentation)</div>
+        <div class="chips">
+          <span class="chip chip-rose">Niacinamide 5–10%</span>
+          <span class="chip chip-rose">Alpha Arbutin 2%</span>
+          <span class="chip chip-rose">Tranexamic Acid</span>
+          <span class="chip chip-rose">Kojic Acid</span>
+          <span class="chip chip-rose">Vitamin C (Ascorbic Acid)</span>
+          <span class="chip chip-rose">Azelaic Acid 10–20%</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Untuk Tekstur & Exfoliasi Ringan</div>
+        <div class="chips">
+          <span class="chip chip-blue">AHA (Glycolic/Lactic Acid) 5–10%</span>
+          <span class="chip chip-blue">BHA (Salicylic Acid) 0.5–2%</span>
+          <span class="chip chip-blue">PHA (Gluconolactone)</span>
+          <span class="chip chip-blue">Retinol 0.025–0.1%</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Untuk Healing & Barrier</div>
+        <div class="chips">
+          <span class="chip chip-sage">Centella Asiatica (Cica)</span>
+          <span class="chip chip-sage">Ceramide</span>
+          <span class="chip chip-sage">Panthenol (B5)</span>
+          <span class="chip chip-sage">Allantoin</span>
+          <span class="chip chip-sage">Madecassoside</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STARTER PACK -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(168,191,168,0.08),rgba(242,196,184,0.08));border-color:rgba(168,191,168,0.3);">
+      <div class="card-header"><div class="card-icon">💸</div><div class="card-title">Starter Pack Hemat</div><div class="card-badge">~Rp 350–450k total</div></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6;">Cukup 4 produk ini dulu untuk pemula. Semua lokal / mudah dicari!</p>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Cleanser</span><span class="row-desc"> — <strong>Cetaphil Gentle Skin Cleanser</strong> · Rp 80–110k · Guardian/Watsons</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Serum</span><span class="row-desc"> — <strong>Skintific 5X Ceramide Niacinamide</strong> · Rp 90–130k · Shopee/Tokopedia</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Moisturizer</span><span class="row-desc"> — <strong>Hada Labo Gokujyun Lotion</strong> · Rp 70–100k · Indomaret/Guardian</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sunscreen</span><span class="row-desc"> — <strong>Azarine Hydrasoothe SPF 45</strong> · Rp 50–75k · Shopee/Tokopedia 🇮🇩</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🌅</div><div class="card-title">Rutinitas Pagi</div></div>
+      <div class="routine-step">
+        <div class="routine-num">1</div>
+        <div>
+          <div class="routine-title">Gentle Cleanser</div>
+          <div class="routine-desc">Sabun wajah pH rendah (5–6), bersihkan tanpa bikin kering atau ketarik.</div>
+          <div class="routine-prod">✦ Cetaphil Gentle Rp 80k · Avoskin PHA Cleanser Rp 89k 🇮🇩 · MS Glow Gentle Rp 65k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">2</div>
+        <div>
+          <div class="routine-title">Toner Hydrating</div>
+          <div class="routine-desc">Melembapkan & menyiapkan kulit agar serum lebih terserap. Tepuk-tepuk pelan, jangan digosok.</div>
+          <div class="routine-prod">✦ Hada Labo Gokujyun Lotion Rp 70–100k · Somethinc HA Toner Rp 89k 🇮🇩 · Wardah Lightening Toner Rp 30k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">3</div>
+        <div>
+          <div class="routine-title">Serum Niacinamide / Alpha Arbutin</div>
+          <div class="routine-desc">Bintang utama untuk fading bekas scabies. Pakai pagi & malam, aman untuk pemula.</div>
+          <div class="routine-prod">✦ Skintific 5X Ceramide Niacinamide Rp 90k 🇮🇩 · Somethinc Niacinamide Rp 79k 🇮🇩 · Implora Niacinamide Rp 25k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">4</div>
+        <div>
+          <div class="routine-title">Moisturizer Ringan</div>
+          <div class="routine-desc">Gel-cream atau lotion ringan. Kunci kelembapan agar skin barrier kuat & kulit plump.</div>
+          <div class="routine-prod">✦ Hada Labo Gokujyun Cream Rp 80k · Wardah Hydra Rose Rp 45k 🇮🇩 · Emina Bright Stuff Rp 35k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">5</div>
+        <div>
+          <div class="routine-title">Sunscreen SPF 30–50+ ⚡️ WAJIB</div>
+          <div class="routine-desc">Tanpa sunscreen, semua brightening sia-sia. UV = bekas makin gelap. Reapply tiap 2 jam jika outdoor.</div>
+          <div class="routine-prod">✦ Azarine Hydrasoothe SPF 45 Rp 55k 🇮🇩 · Skintific Mineral Sunscreen Rp 89k 🇮🇩 · Skin Aqua Sarafit UV Rp 60k</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🌙</div><div class="card-title">Rutinitas Malam</div></div>
+      <div class="routine-step">
+        <div class="routine-num">1</div>
+        <div>
+          <div class="routine-title">Double Cleanse</div>
+          <div class="routine-desc">Micellar water dulu untuk angkat sunscreen, lalu face wash. Jangan skip ini!</div>
+          <div class="routine-prod">✦ Wardah Micellar Water Rp 30k 🇮🇩 · Bioderma Sensibio Rp 150k · Garnier Micellar Rp 35k</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">2</div>
+        <div>
+          <div class="routine-title">Exfoliant AHA/BHA (2–3× seminggu)</div>
+          <div class="routine-desc">Angkat sel kulit mati, percepat penyembuhan bekas. Mulai 1× seminggu dulu, naik pelan. Jangan campur dengan retinol di malam yang sama.</div>
+          <div class="routine-prod">✦ Avoskin Your Skin Bae AHA BHA PHA Rp 105k 🇮🇩 · Somethinc AHA BHA Exfoliating Toner Rp 119k 🇮🇩 · Lacoco AHA Essence Rp 89k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">3</div>
+        <div>
+          <div class="routine-title">Retinol (1–2× seminggu)</div>
+          <div class="routine-desc">Percepat cell turnover = bekas memudar lebih cepat. Mulai 0.025%, malam saja. Kulit bisa purging dulu 2–3 minggu — normal!</div>
+          <div class="routine-prod">✦ Avoskin Miraculous Retinol Serum Rp 120k 🇮🇩 · Skintific Retinol Ceramide Rp 130k 🇮🇩 · Natur-E Retinol Rp 60k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">4</div>
+        <div>
+          <div class="routine-title">Vitamin C (malam, di hari tanpa AHA/retinol)</div>
+          <div class="routine-desc">Brightening kuat + antioksidan. Lebih stabil di malam hari. Jangan dicampur AHA atau retinol.</div>
+          <div class="routine-prod">✦ Skintific 30% Vitamin C Rp 99k 🇮🇩 · Somethinc Niacinamide + Vit C Rp 89k 🇮🇩 · Wardah C-Defense Serum Rp 75k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">5</div>
+        <div>
+          <div class="routine-title">Moisturizer Malam / Sleeping Mask</div>
+          <div class="routine-desc">Kulit repair saat tidur, perlu kelembapan ekstra. Cica/centella cream sangat cocok untuk scar healing.</div>
+          <div class="routine-prod">✦ Somethinc Cica Barrier Sleeping Mask Rp 99k 🇮🇩 · Emina Cica Cream Rp 35k 🇮🇩 · Avoskin Cica Series Rp 89k 🇮🇩</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🌿</div><div class="card-title">Untuk Bekas Scabies di Badan</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Body lotion AHA</span><span class="row-desc"> — <strong>Vaseline Healthy Bright Gluta-Hya</strong> Rp 35k 🇮🇩 · <strong>Citra Sakura</strong> Rp 25k 🇮🇩 — exfoliasi ringan tiap malam</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Niacinamide badan</span><span class="row-desc"> — <strong>Skintific Body Serum Niacinamide</strong> Rp 89k 🇮🇩 — oleskan ke area bekas scabies konsisten tiap malam</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Sunscreen badan</span><span class="row-desc"> — <strong>Azarine Body Sunscreen SPF 50</strong> Rp 60k 🇮🇩 — wajib jika area bekas terkena matahari</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Vitamin E oil</span><span class="row-desc"> — <strong>Natur-E Body Serum</strong> Rp 40k 🇮🇩 atau <strong>Bio Oil</strong> Rp 80k — pijat 2 menit ke bekas luka tiap malam</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Waktu</span><span class="row-desc"> — Bekas post-scabies (PIH) biasanya memudar dalam 3–6 bulan dengan perawatan konsisten. Sabar ya! 🌸</span></div></div>
+    </div>
+
+    <div class="note" style="background:linear-gradient(135deg,rgba(168,191,168,0.1),rgba(168,191,168,0.05));border-color:rgba(168,191,168,0.3);">
+      <strong>🛍️ Beli di mana?</strong> Semua bisa ditemukan di <strong>Shopee / Tokopedia</strong> (biasanya lebih murah), <strong>Guardian</strong>, <strong>Watsons</strong>, atau <strong>Indomaret/Alfamart</strong> untuk brand yang lebih umum. Cari promo flash sale Shopee setiap tanggal kembar ya!
+    </div>
+
+    <div class="note">
+      <strong>⚠️ Jangan campur sekaligus</strong>: Vitamin C + Niacinamide (pakai beda waktu) · AHA + Retinol (jangan di malam yang sama) · Banyak aktif sekaligus = iritasi dan purging parah. Mulai pelan, tambah satu per satu.
+    </div>
+  </div>
+
+  <!-- POSTURE TAB -->
+  <div id="posture" class="section">
+    <h2 class="section-title">Postur <em>Tegak</em></h2>
+    <p class="section-subtitle">Postur yang baik mengubah penampilan lebih dari banyak hal lain — terlihat lebih tinggi, percaya diri & graceful</p>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🧠</div><div class="card-title">Kenapa Postur Penting?</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Postur tegak membuat terlihat 2–3cm lebih tinggi secara visual.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Membuat pakaian lebih pas & silhouette tampak lebih proporsional.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Gestur yang graceful dimulai dari spine & core yang kuat.</div></div>
+      <div class="row-item"><div class="row-dot"></div><div class="row-desc">Perbaiki forward head posture yang sering dari HP/laptop terlalu lama.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🏋️</div><div class="card-title">Latihan Harian untuk Postur</div></div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Wall Angels (2 × 15 reps)</h4>
+          <p>Berdiri membelakangi tembok, bahu & bokong menempel. Angkat tangan ke atas seperti membuat "snow angel." Memperkuat otot upper back & retractor scapula.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Chin Tuck (3 × 12 reps)</h4>
+          <p>Tarik dagu ke belakang (double chin sebentar). Tahan 3 detik. Koreksi forward head posture akibat sering melihat HP. Lakukan tiap 1 jam.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Cat-Cow (1–2 menit pagi & malam)</h4>
+          <p>Gerak tulang belakang fleksi-ekstensi. Mobilisasi spine, kurangi kekakuan, dan sangat baik untuk postur dinamis sehari-hari.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Thoracic Extension di Foam Roller (1 min)</h4>
+          <p>Letakkan foam roller horizontal di punggung tengah, rebahkan badan ke belakang. Buka thoracic spine yang kaku akibat membungkuk terlalu lama.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Dead Bug (2 × 10 reps)</h4>
+          <p>Berbaring, angkat kaki 90°, rentangkan tangan. Turunkan lengan & kaki berlawanan tanpa punggung bawah terangkat. Core stability = postur tegak otomatis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>Prone Y-T-W (2 × 8 reps)</h4>
+          <p>Tengkurap, angkat lengan membentuk huruf Y, T, lalu W. Menguatkan lower trapezius & rhomboid — otot paling bertanggung jawab untuk postur.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-icon">📱</div><div class="card-title">Kebiasaan Sehari-hari</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Duduk</span><span class="row-desc"> — Bokong di belakang kursi, layar sejajar mata, kaki menapak datar. Set alarm tiap 45 menit untuk berdiri sebentar.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">HP</span><span class="row-desc"> — Angkat HP ke level mata, jangan menunduk. Text neck adalah musuh postur nomor satu.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Berjalan</span><span class="row-desc"> — Bayangkan ada benang menarik ubun-ubun ke atas. Bahu rileks ke bawah, bukan terangkat. Pandangan lurus.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Tidur</span><span class="row-desc"> — Tidur telentang atau miring dengan bantal di antara lutut. Hindari tengkurap — buruk untuk leher & spine.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Posture check</span><span class="row-desc"> — Setiap kali melewati cermin, lakukan quick check: telinga-bahu-pinggul-tumit dalam satu garis vertikal?</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>✨ Pro tip</strong>: Bayangkan diri sebagai balerina atau model yang berjalan. Cara visualisasi ini secara otomatis mengaktifkan otot postur yang benar. Combine dengan yoga (ada di tab Workout) untuk hasil maksimal — postur baik biasanya terlihat dalam 4–6 minggu latihan konsisten.
+    </div>
+  </div>
+
+  <!-- HAIRCARE TAB -->
+  <div id="haircare" class="section">
+    <h2 class="section-title"><em>Haircare</em> Guide</h2>
+    <p class="section-subtitle">Rambut lembut · sehat · berkilau · semua produk tersedia di Indonesia 🇮🇩</p>
+
+    <!-- PRIORITAS -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(232,160,160,0.07),rgba(242,196,184,0.07));border-color:rgba(232,160,160,0.25);">
+      <div class="card-header"><div class="card-icon">🎯</div><div class="card-title">4 Hal Paling Penting</div><div class="card-badge">prioritas</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Kelembapan</span><span class="row-desc"> — Rambut lembap = lembut, tidak kusam, tidak mudah patah. Ini fondasi segalanya.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Tidak rontok</span><span class="row-desc"> — Rambut tebal & penuh jauh lebih feminin dari rambut tipis & rontok. Nutrisi dari dalam sama pentingnya dengan perawatan luar.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Tekstur halus</span><span class="row-desc"> — Rambut yang manageable & smooth = mudah di-styling, terlihat rapi dan terawat.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Potongan tepat</span><span class="row-desc"> — Gaya rambut yang cocok untuk face shape kamu bisa mengubah penampilan lebih dari produk apapun.</span></div></div>
+    </div>
+
+    <!-- INGREDIENTS -->
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🧪</div><div class="card-title">Bahan Aktif yang Dicari</div></div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Untuk Kelembapan & Softness</div>
+        <div class="chips">
+          <span class="chip chip-rose">Keratin</span>
+          <span class="chip chip-rose">Argan Oil</span>
+          <span class="chip chip-rose">Hyaluronic Acid</span>
+          <span class="chip chip-rose">Shea Butter</span>
+          <span class="chip chip-rose">Panthenol (Pro-Vitamin B5)</span>
+          <span class="chip chip-rose">Glycerin</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Untuk Anti Rontok & Penguatan</div>
+        <div class="chips">
+          <span class="chip chip-blue">Biotin</span>
+          <span class="chip chip-blue">Caffeine</span>
+          <span class="chip chip-blue">Niacinamide</span>
+          <span class="chip chip-blue">Peptides</span>
+          <span class="chip chip-blue">Zinc Pyrithione</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Untuk Scalp Sehat</div>
+        <div class="chips">
+          <span class="chip chip-sage">Salicylic Acid (scalp)</span>
+          <span class="chip chip-sage">Tea Tree Oil</span>
+          <span class="chip chip-sage">Centella Asiatica</span>
+          <span class="chip chip-sage">Piroctone Olamine</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTINE PAGI -->
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🚿</div><div class="card-title">Rutinitas Keramas (3–4× seminggu)</div></div>
+      <div class="routine-step">
+        <div class="routine-num">1</div>
+        <div>
+          <div class="routine-title">Pre-shampoo Oil (opsional, 1–2× seminggu)</div>
+          <div class="routine-desc">Oleskan minyak ke rambut kering 30 menit sebelum keramas. Melindungi rambut dari deterjen shampoo yang terlalu keras.</div>
+          <div class="routine-prod">✦ Natur-E Hair Serum Rp 25k 🇮🇩 · Makarizo Hair Energy Oil Rp 30k 🇮🇩 · Minyak kemiri murni Rp 20–40k</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">2</div>
+        <div>
+          <div class="routine-title">Shampoo — Fokus ke Scalp</div>
+          <div class="routine-desc">Shampoo hanya di kulit kepala, bukan batang rambut. Pijat lembut 2–3 menit untuk stimulasi sirkulasi. Pilih shampoo sulfate-free atau mild untuk rambut lebih lembut.</div>
+          <div class="routine-prod">✦ Makarizo Keratin Shampoo Rp 35k 🇮🇩 · Elseve Extraordinary Oil Rp 40k · Dove Intense Repair Rp 30k · TRESemmé Keratin Smooth Rp 40k</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">3</div>
+        <div>
+          <div class="routine-title">Kondisioner — Fokus ke Batang & Ujung</div>
+          <div class="routine-desc">Wajib setiap keramas! Hindari kulit kepala. Diamkan 2–3 menit sebelum dibilas. Ini paling berpengaruh untuk kelembutan rambut.</div>
+          <div class="routine-prod">✦ Makarizo Keratin Conditioner Rp 35k 🇮🇩 · Elseve Total Repair Conditioner Rp 40k · Sunsilk Smooth & Manageable Rp 25k</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">4</div>
+        <div>
+          <div class="routine-title">Hair Mask (1–2× seminggu, ganti kondisioner)</div>
+          <div class="routine-desc">Lebih intense dari kondisioner biasa. Diamkan 5–15 menit. Rambut akan terasa jauh lebih lembut dan berkilau setelahnya.</div>
+          <div class="routine-prod">✦ Makarizo Hair Energy Creambath Rp 20k 🇮🇩 · Ellips Hair Mask Rp 5k/sachet 🇮🇩 · Garnier Hair Mask Rp 15k/sachet</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">5</div>
+        <div>
+          <div class="routine-title">Leave-in Serum / Hair Oil (setelah keramas)</div>
+          <div class="routine-desc">Oleskan ke rambut setengah kering. Jangan dibilas. Melindungi dari panas & frizz, tambah kilap alami. Sedikit saja — mulai dari ujung ke tengah.</div>
+          <div class="routine-prod">✦ Ellips Hair Vitamin Rp 5k/kapsul 🇮🇩 · Natur-E Hair Serum Rp 25k 🇮🇩 · Makarizo Hair Energy Serum Rp 35k 🇮🇩</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAILY CARE -->
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🌿</div><div class="card-title">Perawatan Harian (Non-Keramas)</div></div>
+      <div class="routine-step">
+        <div class="routine-num">1</div>
+        <div>
+          <div class="routine-title">Sisir dengan Benar</div>
+          <div class="routine-desc">Gunakan sisir bergigi jarang atau paddle brush. Mulai dari ujung ke atas — jangan dari akar langsung. Jangan menyisir rambut basah terlalu agresif.</div>
+          <div class="routine-prod">✦ Wet Brush / Denman Brush Rp 50–100k · sisir kayu bergigi jarang Rp 15–30k</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">2</div>
+        <div>
+          <div class="routine-title">Scalp Massage Harian (3–5 menit)</div>
+          <div class="routine-desc">Pijat kulit kepala dengan ujung jari tiap pagi atau malam. Meningkatkan sirkulasi darah ke folikel rambut = rambut lebih tebal & tumbuh lebih cepat. Gratis dan sangat efektif!</div>
+          <div class="routine-prod">✦ Bisa pakai jari saja, atau scalp massager Rp 15–30k di Shopee</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">3</div>
+        <div>
+          <div class="routine-title">Hindari Panas Berlebihan</div>
+          <div class="routine-desc">Hairdryer, catokan, curling iron → kerusakan rambut jangka panjang. Kalau pakai hairdryer, gunakan mode dingin atau medium. Selalu pakai heat protectant sebelum styling panas.</div>
+          <div class="routine-prod">✦ TRESemmé Thermal Creations Heat Tamer Rp 50k · Makarizo Hair Energy Spray Rp 35k 🇮🇩</div>
+        </div>
+      </div>
+      <div class="routine-step">
+        <div class="routine-num">4</div>
+        <div>
+          <div class="routine-title">Tidur dengan Silk/Satin Pillowcase</div>
+          <div class="routine-desc">Sarung bantal katun biasa = gesekan = rambut kusut & patah. Satin pillowcase mengurangi frizz drastis dan menjaga kelembapan rambut saat tidur.</div>
+          <div class="routine-prod">✦ Sarung bantal satin Rp 25–60k di Shopee/Tokopedia</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STARTER PACK -->
+    <div class="card" style="background:linear-gradient(135deg,rgba(168,191,168,0.08),rgba(242,196,184,0.08));border-color:rgba(168,191,168,0.3);">
+      <div class="card-header"><div class="card-icon">💸</div><div class="card-title">Starter Pack Haircare Hemat</div><div class="card-badge">~Rp 120–180k total</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Shampoo</span><span class="row-desc"> — <strong>Makarizo Keratin Shampoo</strong> · Rp 35k 🇮🇩</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Kondisioner</span><span class="row-desc"> — <strong>Makarizo Keratin Conditioner</strong> · Rp 35k 🇮🇩</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Hair Mask</span><span class="row-desc"> — <strong>Ellips Hair Mask sachet</strong> · Rp 5k/sachet 🇮🇩 (beli 4–6 dulu)</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Leave-in</span><span class="row-desc"> — <strong>Ellips Hair Vitamin kapsul</strong> · Rp 15–25k/strip 🇮🇩</span></div></div>
+    </div>
+
+    <!-- NUTRISI DARI DALAM -->
+    <div class="card">
+      <div class="card-header"><div class="card-icon">🥗</div><div class="card-title">Nutrisi dari Dalam (sama pentingnya!)</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Protein cukup</span><span class="row-desc"> — Rambut adalah keratin = protein. Kurang protein → rambut rontok & tipis. Target 90–100g/hari (sudah ada di tab Diet!).</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Biotin alami</span><span class="row-desc"> — Telur, kacang-kacangan, alpukat, ubi jalar. Atau suplemen biotin Rp 50–100k/bulan.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Zinc & Iron</span><span class="row-desc"> — Kekurangan zinc/zat besi adalah penyebab rontok paling umum. Konsumsi tempe, bayam, daging merah secukupnya.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Omega-3</span><span class="row-desc"> — Salmon, chia seed, walnut → kulit kepala sehat, rambut berkilau dari dalam.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Air putih</span><span class="row-desc"> — Dehidrasi = rambut kering & kusam. 2.5 liter/hari. Sesederhana itu!</span></div></div>
+    </div>
+
+    <!-- POTONGAN RAMBUT -->
+    <div class="card">
+      <div class="card-header"><div class="card-icon">✂️</div><div class="card-title">Potongan untuk Estetika Femboy</div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Wolf Cut</span><span class="row-desc"> — Paling populer untuk estetika ini. Layered, punya volume di atas & curtain bang di depan. Cocok untuk hampir semua face shape.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Curtain Bangs</span><span class="row-desc"> — Poni belah tengah yang melengkung ke samping. Frame wajah dengan cantik, sangat soft & feminin.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Long Layers</span><span class="row-desc"> — Rambut panjang dengan layer. Terlihat anggun, mudah ditata, feminin secara natural.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Pixie Cut Soft</span><span class="row-desc"> — Untuk yang suka pendek. Pilih yang ada texture & tidak terlalu "hard" di sisi — minta ke barbershop untuk textured top.</span></div></div>
+      <div class="row-item"><div class="row-dot"></div><div><span class="row-label">Trim rutin</span><span class="row-desc"> — Potong ujung rambut tiap 8–12 minggu meski sedang menumbuhkan rambut. Ujung bercabang membuat rambut terlihat tidak terawat.</span></div></div>
+    </div>
+
+    <div class="note">
+      <strong>⏳ Timeline realistis</strong>: Hasil haircare baru terasa signifikan setelah <strong>4–8 minggu</strong> konsisten. Rambut tumbuh rata-rata 1–1.5cm per bulan, jadi sabar adalah kunci. Mulai dari starter pack dulu, rasakan bedanya, baru upgrade produk kalau mau!
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(name).classList.add('active');
+    event.target.classList.add('active');
+  }
+  // ensure jadwal is active on load
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('jadwal').classList.add('active');
+  });
+</script>
+</body>
+</html>

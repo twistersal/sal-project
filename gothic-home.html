@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>my corner — The Amygdala</title>
+<title>my corner — dark codex</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root{--black:#0a0809;--surface:#110d0f;--border:rgba(139,26,47,.25);--border-bright:rgba(139,26,47,.6);--crimson:#8b1a2f;--crimson-light:#b8344e;--text:#e8e0d8;--text-muted:#7a6e6a;--text-dim:#3a3038;}
@@ -73,7 +73,18 @@
 </div>
 <script>
   const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],now=new Date();
-  document.getElementById('todayDate').textContent=`${days[now.getDay()]} · ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  
+  function updateTime() {
+    const now = new Date();
+    const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('todayDate').textContent =
+      `${days[now.getDay()]} · ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} · ${hh}:${mm}`;
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
   const s=['✦','†','◆','✧','·'];
   function sp(){const el=document.createElement('span');el.className='symbol';el.textContent=s[Math.floor(Math.random()*s.length)];el.style.left=Math.random()*100+'vw';const d=12+Math.random()*14;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*3+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
   for(let i=0;i<10;i++)setTimeout(sp,i*800);setInterval(sp,3500);

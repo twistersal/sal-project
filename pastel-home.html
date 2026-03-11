@@ -70,7 +70,18 @@
 </div>
 <script>
   const days=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],months=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],now=new Date();
-  document.getElementById('todayDate').textContent=`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  
+  function updateTime() {
+    const now = new Date();
+    const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('todayDate').textContent =
+      `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()} · ${hh}:${mm}`;
+  }
+  updateTime();
+  setInterval(updateTime, 1000);
   const p=['🌸','🌷','✿','❀','✦','·'];
   function sp(){const el=document.createElement('span');el.className='petal';el.textContent=p[Math.floor(Math.random()*p.length)];el.style.left=Math.random()*100+'vw';el.style.fontSize=(0.6+Math.random()*.8)+'rem';const d=8+Math.random()*10;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*4+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
   for(let i=0;i<12;i++)setTimeout(sp,i*600);setInterval(sp,3000);

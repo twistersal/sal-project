@@ -443,6 +443,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'sn1', time:'04:30', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'Langsung shower begitu alarm bunyi' },
         { id:'sn2', time:'04:45', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi', sub:'Cuci muka → toner → serum niacinamide → moisturizer → sunscreen SPF 45' },
+        { id:'sn_bp', time:'04:55', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'sn3', time:'05:00', cat:'free', emoji:'😌', text:'Waktu santai pagi', sub:'Minum air, qur\'an/baca, atau rebahan' },
         { id:'sn4', time:'06:00', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Overnight oats ⭐ + telur rebus ⭐ + pisang' },
       ],
@@ -467,6 +468,7 @@ const SCHEDULE = {
         { id:'sn14', time:'19:30', cat:'study', emoji:'📖', text:'Belajar — review kuliah', sub:'1 jam, cukup' },
         { id:'sn15', time:'20:30', cat:'free', emoji:'🎮', text:'ML / Komik — reward!', sub:'Bebas total, no guilt' },
         { id:'sn16', time:'22:00', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → niacinamide → moisturizer' },
+        { id:'sn17', time:'22:10', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies · tiap malam konsisten 🌿' },
       ],
     }
   },
@@ -477,6 +479,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'sl1', time:'05:00', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'' },
         { id:'sl2', time:'05:15', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi + Sunscreen', sub:'Cuci muka → toner → serum → moisturizer → sunscreen SPF 45' },
+        { id:'sl_bp', time:'05:20', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'sl3', time:'05:30', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Greek yogurt ⭐ + granola + pisang' },
       ],
       '💪 Workout': [
@@ -497,6 +500,7 @@ const SCHEDULE = {
         { id:'sl14', time:'19:00', cat:'free', emoji:'🎨', text:'NFT — bikin/editing karya', sub:'1.5 jam' },
         { id:'sl15', time:'21:15', cat:'free', emoji:'🎮', text:'ML / Komik — reward!', sub:'No guilt!' },
         { id:'sl16', time:'22:30', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → AHA exfoliant → moisturizer' },
+        { id:'sl17', time:'22:40', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies → body lotion AHA ke seluruh badan (hari AHA!) 🌿' },
       ],
     }
   },
@@ -507,6 +511,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'rb1', time:'04:30', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'' },
         { id:'rb2', time:'04:45', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi + Sunscreen', sub:'Cuci muka → toner → serum → moisturizer → sunscreen SPF 45' },
+        { id:'rb_bp', time:'04:50', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'rb3', time:'05:00', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Nasi merah ⭐ + telur ceplok + tumis kangkung' },
       ],
       '📚 Kuliah Pagi': [
@@ -527,6 +532,7 @@ const SCHEDULE = {
         { id:'rb14', time:'20:00', cat:'free', emoji:'🎨', text:'NFT atau Artikel — pilih satu', sub:'1.5 jam' },
         { id:'rb15', time:'21:15', cat:'free', emoji:'🎮', text:'Bebas!', sub:'Reward time' },
         { id:'rb16', time:'22:30', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → vitamin C serum → moisturizer' },
+        { id:'rb17', time:'22:40', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies · tiap malam konsisten 🌿' },
       ],
     }
   },
@@ -537,6 +543,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'km1', time:'05:00', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'' },
         { id:'km2', time:'05:15', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi + Sunscreen', sub:'Cuci muka → toner → serum niacinamide → moisturizer → sunscreen SPF 45' },
+        { id:'km_bp', time:'05:20', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'km3', time:'05:30', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Roti gandum + telur dadar bayam ⭐ + jeruk' },
       ],
       '📚 Kuliah': [
@@ -557,6 +564,7 @@ const SCHEDULE = {
         { id:'km12', time:'19:30', cat:'free', emoji:'🎨', text:'NFT — sesi kreatif utama minggu ini', sub:'1.5 jam fokus' },
         { id:'km13', time:'21:00', cat:'free', emoji:'🎮', text:'ML / Komik — reward penuh!', sub:'Hari panjang, deserve it!' },
         { id:'km14', time:'22:30', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → niacinamide → moisturizer' },
+        { id:'km15', time:'22:40', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies → body lotion AHA ke seluruh badan (hari AHA!) 🌿' },
       ],
     }
   },
@@ -567,6 +575,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'jm1', time:'05:00', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'' },
         { id:'jm2', time:'05:15', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi + Sunscreen', sub:'Cuci muka → toner → serum → moisturizer → sunscreen SPF 45' },
+        { id:'jm_bp', time:'05:20', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'jm3', time:'05:30', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Overnight oats ⭐ + alpukat + biji chia + madu' },
       ],
       '🧘 Workout': [
@@ -586,6 +595,7 @@ const SCHEDULE = {
         { id:'jm11', time:'18:30', cat:'meal', emoji:'🍽️', text:'Makan Malam', sub:'Bebas pilihan favorit — tetap ada protein + sayur ya!' },
         { id:'jm12', time:'19:30', cat:'free', emoji:'🎮', text:'Malam bebas panjang', sub:'ML, komik, scrolling — until 23:00. No guilt!' },
         { id:'jm13', time:'23:00', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → AHA exfoliant → moisturizer' },
+        { id:'jm14', time:'23:10', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies · tiap malam konsisten 🌿' },
       ],
     }
   },
@@ -596,6 +606,7 @@ const SCHEDULE = {
       '🌅 Pagi': [
         { id:'sb1', time:'05:00', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'' },
         { id:'sb2', time:'05:15', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi + Sunscreen', sub:'Sunscreen wajib — cardio outdoor! SPF 45' },
+        { id:'sb_bp', time:'05:20', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan → sunscreen badan SPF 50 ke area bekas scabies' },
         { id:'sb3', time:'07:30', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Roti gandum + telur orak-arik bayam + tomat + jeruk' },
       ],
       '🚶 Cardio': [
@@ -614,6 +625,7 @@ const SCHEDULE = {
         { id:'sb12', time:'20:00', cat:'study', emoji:'🛒', text:'Belanja bahan meal prep', sub:'Ke pasar/Indomaret — besok langsung masak!' },
         { id:'sb13', time:'21:00', cat:'free', emoji:'🎮', text:'Santai malam', sub:'Reward setelah hari produktif' },
         { id:'sb14', time:'22:00', cat:'skincare', emoji:'🌙', text:'Skincare Malam + Hair Mask mingguan 🌸', sub:'Micellar water → face wash → toner → vitamin C serum → moisturizer' },
+        { id:'sb15', time:'22:10', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies → body lotion AHA ke seluruh badan (hari AHA!) 🌿' },
       ],
     }
   },
@@ -624,6 +636,7 @@ const SCHEDULE = {
       '🌅 Pagi Santai': [
         { id:'mg1', time:'05:30', cat:'skincare', emoji:'⏰', text:'Bangun + Mandi pagi', sub:'Sedikit lebih santai — rest day!' },
         { id:'mg2', time:'05:45', cat:'skincare', emoji:'🧴', text:'Full Skincare Pagi', sub:'Cuci muka → toner → serum → moisturizer (sunscreen opsional kalau tidak keluar)' },
+        { id:'mg_bp', time:'05:50', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Body lotion ringan ke seluruh badan · sunscreen opsional kalau tidak keluar' },
         { id:'mg3', time:'06:00', cat:'free', emoji:'😌', text:'Morning slow', sub:'Kopi/teh, baca, rebahan — tidak ada yang harus dikejar' },
         { id:'mg4', time:'08:30', cat:'meal', emoji:'🥣', text:'Brunch', sub:'Telur dadar + roti gandum + alpukat + kopi/teh hijau' },
       ],
@@ -642,6 +655,7 @@ const SCHEDULE = {
         { id:'mg12', time:'19:00', cat:'meal', emoji:'🍽️', text:'Makan Malam', sub:'Hasil meal prep pertama! Ikan + brokoli + nasi merah' },
         { id:'mg13', time:'20:00', cat:'free', emoji:'🎮', text:'Malam bebas terakhir sebelum Senin', sub:'Sampai jam 22:00' },
         { id:'mg14', time:'22:00', cat:'skincare', emoji:'🌙', text:'Skincare Malam', sub:'Micellar water → face wash → toner → retinol → moisturizer' },
+        { id:'mg15', time:'22:10', cat:'skincare', emoji:'🧴', text:'Bodycare Malam', sub:'Body serum niacinamide ke bekas scabies · tiap malam konsisten 🌿' },
       ],
     }
   }

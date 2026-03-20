@@ -770,48 +770,111 @@ function getStreak() {
 function buildCalendar() {
   const container = document.getElementById('streakCalendar');
   if (!container) return;
-  const today = new Date();
-  const cells = [];
 
-  // 35 days back
-  for (let i = 34; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const ds = dateStr(d);
-    const dn = DAY_JS_MAP[d.getDay()];
-    const status = streakData[ds] || evaluateDay(ds, dn);
-    const isToday = ds === todayStr();
-    cells.push({ds, dn, status, isToday, dayNum: d.getDate()});
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+  // Update month label
+  const label = document.getElementById('calMonthLabel');
+  if (label) label.textContent = monthNames[month] + ' ' + year;
+
+  // First day of month and total days
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  // Convert to Mon-start: Mon=0 ... Sun=6
+  const startOffset = (firstDay + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  let html = '';
+
+  // Day headers
+  const dayHeaders = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
+  dayHeaders.forEach(d => {
+    html += `<div style="text-align:center;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--text-light);opacity:0.5;padding-bottom:4px">${d}</div>`;
+  });
+
+  // Empty cells before first day
+  for (let i = 0; i < startOffset; i++) {
+    html += `<div style="aspect-ratio:1"></div>`;
   }
 
-  container.innerHTML = cells.map(c => {
-    let bg = 'rgba(255,255,255,0.03)';
-    let border = 'rgba(255,255,255,0.08)';
-    let icon = '';
-    if (c.status === 'complete') { bg='rgba(255,140,0,0.12)'; border='rgba(255,140,0,0.45)'; icon='🔥'; }
-    else if (c.status === 'missed') { bg='rgba(200,60,60,0.08)'; border='rgba(200,60,60,0.25)'; icon='✕'; }
-    else if (c.status === 'partial') { bg='rgba(120,120,120,0.08)'; border='rgba(120,120,120,0.2)'; icon='<span style=\'filter:grayscale(1);opacity:0.4;font-size:11px\'>🔥</span>'; }
-    const todayStyle = c.isToday ? 'outline:2px solid var(--accent);outline-offset:2px;' : '';
-    return `<div title="${c.dn} ${c.ds}" style="width:36px;height:36px;border-radius:4px;background:${bg};border:1px solid ${border};${todayStyle}display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);gap:1px;cursor:default"><span style="font-size:9px;opacity:0.5">${c.dayNum}</span><span style="font-size:11px">${icon}</span></div>`;
-  }).join('');
+  // Day cells
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(year, month, day);
+    const ds = dateStr(d);
+    const dn = DAY_JS_MAP[d.getDay()];
+    const isToday = ds === todayStr();
+    const isFuture = d > today && !isToday;
+
+    let bg, border, icon, opacity = '1';
+
+    if (isFuture) {
+      bg = 'rgba(255,255,255,0.02)';
+      border = 'rgba(255,255,255,0.06)';
+      icon = '';
+      opacity = '0.3';
+    } else {
+      const status = streakData[ds] || evaluateDay(ds, dn);
+      if (status === 'complete') {
+        bg = 'rgba(255,140,0,0.12)'; border = 'rgba(255,140,0,0.45)'; icon = '🔥';
+      } else if (status === 'missed') {
+        bg = 'rgba(200,60,60,0.08)'; border = 'rgba(200,60,60,0.25)'; icon = '✕';
+      } else if (status === 'partial') {
+        bg = 'rgba(120,120,120,0.08)'; border = 'rgba(120,120,120,0.2)';
+        icon = '<span style=\'filter:grayscale(1);opacity:0.4;font-size:11px\'>🔥</span>';
+      } else {
+        bg = 'rgba(255,255,255,0.03)'; border = 'rgba(255,255,255,0.08)'; icon = '';
+      }
+    }
+
+    const todayStyle = isToday ? 'outline:2px solid var(--accent);outline-offset:2px;' : '';
+    html += `<div title="${dn} ${ds}" style="aspect-ratio:1;border-radius:6px;background:${bg};border:1px solid ${border};${todayStyle}opacity:${opacity};display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);gap:1px;cursor:default"><span style="font-size:9px;opacity:0.6">${day}</span><span style="font-size:11px">${icon}</span></div>`;
+  }
+
+  container.style.cssText = 'display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:100%';
+  container.innerHTML = html;
 
   // Update streak count
   const streak = getStreak();
   const sc = document.getElementById('streakCount');
   if (sc) sc.textContent = `${streak} hari`;
-  // Fire icon: only glow if today is complete
+
+  // Fire icon glow
   const todayStatus = evaluateDay(todayStr(), TODAY_NAME);
-  const icon = document.getElementById('streakIcon');
-  if (icon) {
+  const fireIcon = document.getElementById('streakIcon');
+  if (fireIcon) {
     if (todayStatus === 'complete') {
-      icon.style.filter = '';
-      icon.style.opacity = '1';
+      fireIcon.style.filter = '';
+      fireIcon.style.opacity = '1';
     } else {
-      icon.style.filter = 'grayscale(1)';
-      icon.style.opacity = '0.35';
+      fireIcon.style.filter = 'grayscale(1)';
+      fireIcon.style.opacity = '0.35';
     }
   }
 }
+
+function injectCalendarSection() {
+  const streakBar = document.querySelector('.streak-bar');
+  if (!streakBar) return;
+  const calDiv = document.createElement('div');
+  calDiv.style.cssText = 'margin-top:14px;margin-bottom:24px;';
+  calDiv.innerHTML = `
+    <div style="background:var(--card-bg);border:1.5px solid rgba(201,184,232,0.2);border-radius:18px;padding:16px 16px 14px;backdrop-filter:blur(8px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text)" id="calMonthLabel"></div>
+        <div style="display:flex;gap:10px;font-size:11px;color:var(--text-light)">
+          <span>🔥 selesai</span>
+          <span><span style="filter:grayscale(1);opacity:0.4">🔥</span> sebagian</span>
+          <span style="color:rgba(200,60,60,0.6)">✕ terlewat</span>
+        </div>
+      </div>
+      <div id="streakCalendar"></div>
+    </div>
+  `;
+  streakBar.parentNode.insertBefore(calDiv, streakBar.nextSibling);
+}
+
 
 // ── auto-save today status ───────────────────────────────────────────────────
 function checkAndSaveToday() {
@@ -824,16 +887,12 @@ function checkAndSaveToday() {
   }
 }
 
-// ── build UI ─────────────────────────────────────────────────────────────────
-function getCheckedCount(day, dateS) {
-  return getAllItems(day).filter(it => state[itemKey(dateS, it.id)]).length;
-}
-
+// ── progress & UI ────────────────────────────────────────────────────────────
 function updateProgress(day) {
-  const ds = day === TODAY_NAME ? todayStr() : '_past_';
+  const dateForDay = day === TODAY_NAME ? todayStr() : day;
   const items = getAllItems(day);
   const total = items.length;
-  const done = items.filter(it => state[itemKey(day === TODAY_NAME ? todayStr() : day+'_', it.id)]).length;
+  const done = items.filter(it => state[itemKey(dateForDay, it.id)]).length;
   const pct = total > 0 ? (done/total)*100 : 0;
 
   const fill = document.getElementById('progress-fill-'+day);
@@ -841,11 +900,9 @@ function updateProgress(day) {
   if (fill) fill.style.width = pct + '%';
   if (count) count.textContent = done + ' / ' + total;
 
-  // Tab dot
   const tab = document.querySelector('.day-tab[data-day="'+day+'"]');
   if (tab) tab.classList.toggle('completed', done === total && total > 0);
 
-  // Celebration
   const cel = document.getElementById('cel-'+day);
   if (cel) cel.classList.toggle('show', done === total && total > 0);
 
@@ -853,27 +910,22 @@ function updateProgress(day) {
 }
 
 function toggleItem(id, day, itemTime, e) {
-  // Check if locked (today only)
   if (day === TODAY_NAME) {
     const locked = nowMins() > timeToMins(itemTime) + 30;
     if (locked) {
-      // Show locked feedback
       const el = document.getElementById('item-'+id);
       if (el) { el.style.animation='shake .3s ease'; setTimeout(()=>el.style.animation='',300); }
       return;
     }
   }
-
   const key = itemKey(day === TODAY_NAME ? todayStr() : day, id);
   state[key] = !state[key];
   save();
-
   const el = document.getElementById('item-'+id);
   if (el) {
     el.classList.toggle('done', state[key]);
     if (state[key]) spawnParticle(e.clientX, e.clientY);
   }
-
   updateProgress(day);
   checkAndSaveToday();
 }
@@ -887,8 +939,7 @@ function switchDay(day) {
 
 function refreshLockStates() {
   if (currentDay !== TODAY_NAME) return;
-  const items = getAllItems(TODAY_NAME);
-  items.forEach(item => {
+  getAllItems(TODAY_NAME).forEach(item => {
     const el = document.getElementById('item-'+item.id);
     if (!el) return;
     const locked = nowMins() > timeToMins(item.time) + 30;
@@ -1001,7 +1052,7 @@ function buildPanels() {
   });
 }
 
-// ── extra CSS for locked/missed + shake + calendar ───────────────────────────
+// ── extra CSS ─────────────────────────────────────────────────────────────────
 const extraCSS = `
   .check-item.missed {
     opacity: 0.45;
@@ -1015,34 +1066,10 @@ const extraCSS = `
     25%{transform:translateX(-4px)}
     75%{transform:translateX(4px)}
   }
-  #streakCalendar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 10px;
-  }
 `;
-const style = document.createElement('style');
-style.textContent = extraCSS;
-document.head.appendChild(style);
-
-// ── calendar section in header ───────────────────────────────────────────────
-function injectCalendarSection() {
-  const streakBar = document.querySelector('.streak-bar');
-  if (!streakBar) return;
-  const calDiv = document.createElement('div');
-  calDiv.style.cssText = 'margin-top:12px;';
-  calDiv.innerHTML = `
-    <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px">Riwayat 35 hari</div>
-    <div id="streakCalendar"></div>
-    <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text-light)">
-      <span>🔥 selesai</span>
-      <span><span style="filter:grayscale(1);opacity:0.4">🔥</span> sebagian</span>
-      <span style="color:rgba(200,60,60,0.6)">✕ terlewat</span>
-    </div>
-  `;
-  streakBar.parentNode.insertBefore(calDiv, streakBar.nextSibling);
-}
+const extraStyle = document.createElement('style');
+extraStyle.textContent = extraCSS;
+document.head.appendChild(extraStyle);
 
 // ── init ─────────────────────────────────────────────────────────────────────
 buildTabs();

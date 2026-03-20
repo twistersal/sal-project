@@ -668,108 +668,253 @@ const SCHEDULE = {
   }
 };
 
-// State
-let state = JSON.parse(localStorage.getItem('femboy-checklist') || '{}');
-let currentDay = localStorage.getItem('femboy-day') || 'Senin';
+// ── helpers ──────────────────────────────────────────────────────────────────
+const DAYS = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+const DAY_JS_MAP = {0:'Minggu',1:'Senin',2:'Selasa',3:'Rabu',4:'Kamis',5:'Jumat',6:'Sabtu'};
+const TODAY_NAME = DAY_JS_MAP[new Date().getDay()];
+
+// State: per-item checks keyed by YYYY-MM-DD-itemId
+const STATE_KEY = 'ritual-state-v2';
+const STREAK_KEY = 'ritual-streak-v2';
+let state = JSON.parse(localStorage.getItem(STATE_KEY) || '{}');
+let streakData = JSON.parse(localStorage.getItem(STREAK_KEY) || '{}');
+let currentDay = TODAY_NAME;
+
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+function dateStr(d) {
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+function itemKey(date, id) { return date + '|' + id; }
 
 function save() {
-  localStorage.setItem('femboy-checklist', JSON.stringify(state));
-  localStorage.setItem('femboy-day', currentDay);
+  localStorage.setItem(STATE_KEY, JSON.stringify(state));
+  localStorage.setItem(STREAK_KEY, JSON.stringify(streakData));
 }
 
-function getCompletedCount(day) {
-  const items = getAllItems(day);
-  return items.filter(id => state[id]).length;
+// ── time locking ─────────────────────────────────────────────────────────────
+function timeToMins(t) {
+  const [h,m] = t.split(':').map(Number);
+  return h*60 + m;
 }
 
-function getTotalCount(day) {
-  return getAllItems(day).length;
+function nowMins() {
+  const n = new Date();
+  return n.getHours()*60 + n.getMinutes();
 }
 
+function isItemLocked(item) {
+  // Only lock on today's items, only if time has passed by >30 min
+  if (currentDay !== TODAY_NAME) return false;
+  return nowMins() > timeToMins(item.time) + 30;
+}
+
+function isItemMissed(item) {
+  // Locked AND not checked for today
+  if (!isItemLocked(item)) return false;
+  const key = itemKey(todayStr(), item.id);
+  return !state[key];
+}
+
+// ── streak logic ─────────────────────────────────────────────────────────────
 function getAllItems(day) {
-  const sched = SCHEDULE[day];
   const ids = [];
-  for (const section of Object.values(sched.sections)) {
-    for (const item of section) ids.push(item.id);
-  }
+  for (const section of Object.values(SCHEDULE[day].sections))
+    for (const item of section) ids.push(item);
   return ids;
 }
 
-function isDayComplete(day) {
-  return getCompletedCount(day) === getTotalCount(day);
+function evaluateDay(dateS, dayName) {
+  // Can't evaluate future days
+  const today = todayStr();
+  if (dateS > today) return null;
+
+  const items = getAllItems(dayName);
+  const total = items.length;
+  const checked = items.filter(it => state[itemKey(dateS, it.id)]).length;
+
+  if (dateS < today) {
+    // Past day: if all checked → complete, else missed
+    return checked === total ? 'complete' : 'missed';
+  } else {
+    // Today: if any locked+unchecked → broken, else check all
+    const anyMissed = items.some(it => {
+      const locked = nowMins() > timeToMins(it.time) + 30;
+      return locked && !state[itemKey(dateS, it.id)];
+    });
+    if (anyMissed) return 'missed';
+    if (checked === total) return 'complete';
+    return 'partial';
+  }
 }
 
-function updateStreak() {
-  const done = DAYS.filter(d => isDayComplete(d)).length;
-  document.getElementById('streakCount').textContent = `${done} / 7`;
+function getStreak() {
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 60; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const dn = DAY_JS_MAP[d.getDay()];
+    const status = streakData[ds] || evaluateDay(ds, dn);
+    if (status === 'complete') streak++;
+    else if (i > 0) break; // allow today to be partial
+  }
+  return streak;
+}
+
+// ── calendar ─────────────────────────────────────────────────────────────────
+function buildCalendar() {
+  const container = document.getElementById('streakCalendar');
+  if (!container) return;
+  const today = new Date();
+  const cells = [];
+
+  // 35 days back
+  for (let i = 34; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const dn = DAY_JS_MAP[d.getDay()];
+    const status = streakData[ds] || evaluateDay(ds, dn);
+    const isToday = ds === todayStr();
+    cells.push({ds, dn, status, isToday, dayNum: d.getDate()});
+  }
+
+  container.innerHTML = cells.map(c => {
+    let bg = 'rgba(255,255,255,0.03)';
+    let border = 'rgba(255,255,255,0.08)';
+    let icon = '';
+    if (c.status === 'complete') { bg='rgba(100,200,100,0.15)'; border='rgba(100,200,100,0.4)'; icon='✦'; }
+    else if (c.status === 'missed') { bg='rgba(200,60,60,0.1)'; border='rgba(200,60,60,0.3)'; icon='✕'; }
+    else if (c.status === 'partial') { bg='rgba(200,160,50,0.1)'; border='rgba(200,160,50,0.3)'; icon='·'; }
+    const todayStyle = c.isToday ? 'outline:2px solid var(--accent);outline-offset:2px;' : '';
+    return `<div title="${c.dn} ${c.ds}" style="width:36px;height:36px;border-radius:4px;background:${bg};border:1px solid ${border};${todayStyle}display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);gap:1px;cursor:default"><span style="font-size:9px;opacity:0.5">${c.dayNum}</span><span style="font-size:11px">${icon}</span></div>`;
+  }).join('');
+
+  // Update streak count
+  const streak = getStreak();
+  const sc = document.getElementById('streakCount');
+  if (sc) sc.textContent = `${streak} hari 🔥`;
+}
+
+// ── auto-save today status ───────────────────────────────────────────────────
+function checkAndSaveToday() {
+  const ds = todayStr();
+  const dn = TODAY_NAME;
+  const status = evaluateDay(ds, dn);
+  if (status === 'complete' || status === 'missed') {
+    streakData[ds] = status;
+    save();
+  }
+}
+
+// ── build UI ─────────────────────────────────────────────────────────────────
+function getCheckedCount(day, dateS) {
+  return getAllItems(day).filter(it => state[itemKey(dateS, it.id)]).length;
 }
 
 function updateProgress(day) {
-  const done = getCompletedCount(day);
-  const total = getTotalCount(day);
-  const pct = total > 0 ? (done / total) * 100 : 0;
-  document.getElementById(`progress-fill-${day}`).style.width = pct + '%';
-  document.getElementById(`progress-count-${day}`).textContent = `${done} / ${total}`;
-  
-  // Celebration
-  const cel = document.getElementById(`cel-${day}`);
-  if (done === total && total > 0) {
-    cel.classList.add('show');
-  } else {
-    cel.classList.remove('show');
-  }
+  const ds = day === TODAY_NAME ? todayStr() : '_past_';
+  const items = getAllItems(day);
+  const total = items.length;
+  const done = items.filter(it => state[itemKey(day === TODAY_NAME ? todayStr() : day+'_', it.id)]).length;
+  const pct = total > 0 ? (done/total)*100 : 0;
+
+  const fill = document.getElementById('progress-fill-'+day);
+  const count = document.getElementById('progress-count-'+day);
+  if (fill) fill.style.width = pct + '%';
+  if (count) count.textContent = done + ' / ' + total;
 
   // Tab dot
-  const tab = document.querySelector(`.day-tab[data-day="${day}"]`);
-  if (isDayComplete(day)) tab.classList.add('completed');
-  else tab.classList.remove('completed');
+  const tab = document.querySelector('.day-tab[data-day="'+day+'"]');
+  if (tab) tab.classList.toggle('completed', done === total && total > 0);
 
-  updateStreak();
+  // Celebration
+  const cel = document.getElementById('cel-'+day);
+  if (cel) cel.classList.toggle('show', done === total && total > 0);
+
+  buildCalendar();
 }
 
-function spawnParticle(x, y) {
-  const emojis = ['🌸','✨','💫','🌟','🌷','💕','⭐'];
-  const el = document.createElement('span');
-  el.className = 'particle';
-  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-  el.style.left = (x - 10) + 'px';
-  el.style.top = (y - 10) + 'px';
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 1000);
-}
+function toggleItem(id, day, itemTime, e) {
+  // Check if locked (today only)
+  if (day === TODAY_NAME) {
+    const locked = nowMins() > timeToMins(itemTime) + 30;
+    if (locked) {
+      // Show locked feedback
+      const el = document.getElementById('item-'+id);
+      if (el) { el.style.animation='shake .3s ease'; setTimeout(()=>el.style.animation='',300); }
+      return;
+    }
+  }
 
-function toggleItem(id, day, e) {
-  state[id] = !state[id];
+  const key = itemKey(day === TODAY_NAME ? todayStr() : day, id);
+  state[key] = !state[key];
   save();
-  const el = document.getElementById(`item-${id}`);
-  el.classList.toggle('done', state[id]);
-  if (state[id]) spawnParticle(e.clientX, e.clientY);
+
+  const el = document.getElementById('item-'+id);
+  if (el) {
+    el.classList.toggle('done', state[key]);
+    if (state[key]) spawnParticle(e.clientX, e.clientY);
+  }
+
   updateProgress(day);
+  checkAndSaveToday();
 }
 
 function switchDay(day) {
   currentDay = day;
-  save();
   document.querySelectorAll('.day-tab').forEach(t => t.classList.toggle('active', t.dataset.day === day));
   document.querySelectorAll('.day-panel').forEach(p => p.classList.toggle('active', p.dataset.day === day));
+  refreshLockStates();
+}
+
+function refreshLockStates() {
+  if (currentDay !== TODAY_NAME) return;
+  const items = getAllItems(TODAY_NAME);
+  items.forEach(item => {
+    const el = document.getElementById('item-'+item.id);
+    if (!el) return;
+    const locked = nowMins() > timeToMins(item.time) + 30;
+    const checked = !!state[itemKey(todayStr(), item.id)];
+    el.classList.toggle('locked', locked && !checked);
+    el.classList.toggle('missed', locked && !checked);
+  });
+}
+
+function spawnParticle(x, y) {
+  const emojis = ['✦','†','◆','✧','★','·'];
+  const el = document.createElement('span');
+  el.className = 'particle';
+  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = (x-10)+'px';
+  el.style.top = (y-10)+'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
 }
 
 function resetAll() {
-  if (!confirm('Reset semua checklist? (tidak bisa dibatalkan)')) return;
+  if (!confirm('Reset semua checklist? Tidak bisa dibatalkan.')) return;
   state = {};
   save();
-  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('done'));
+  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('done','locked','missed'));
   DAYS.forEach(d => updateProgress(d));
 }
 
-// Build UI
+// ── build tabs & panels ───────────────────────────────────────────────────────
 function buildTabs() {
   const container = document.getElementById('dayTabs');
   DAYS.forEach(day => {
     const tab = document.createElement('button');
     tab.className = 'day-tab' + (day === currentDay ? ' active' : '');
     tab.dataset.day = day;
-    tab.innerHTML = `${SCHEDULE[day].emoji} ${day}<span class="tab-dot"></span>`;
+    const isToday = day === TODAY_NAME;
+    tab.innerHTML = `${SCHEDULE[day].emoji} ${day}${isToday ? ' <span style="font-size:9px;opacity:0.5">hari ini</span>' : ''}<span class="tab-dot"></span>`;
     tab.onclick = () => switchDay(day);
     container.appendChild(tab);
   });
@@ -783,9 +928,11 @@ function buildPanels() {
     panel.className = 'day-panel' + (day === currentDay ? ' active' : '');
     panel.dataset.day = day;
 
-    const total = getTotalCount(day);
-    const done = getCompletedCount(day);
-    const pct = total > 0 ? (done / total) * 100 : 0;
+    const dateForDay = day === TODAY_NAME ? todayStr() : day;
+    const items = getAllItems(day);
+    const total = items.length;
+    const done = items.filter(it => state[itemKey(dateForDay, it.id)]).length;
+    const pct = total > 0 ? (done/total)*100 : 0;
 
     let html = `
       <div class="progress-wrap">
@@ -799,19 +946,24 @@ function buildPanels() {
       </div>
     `;
 
-    for (const [section, items] of Object.entries(sched.sections)) {
+    for (const [section, sectionItems] of Object.entries(sched.sections)) {
       html += `<div class="section-label">${section}</div><div class="checklist">`;
-      for (const item of items) {
-        const isDone = !!state[item.id];
+      for (const item of sectionItems) {
+        const key = itemKey(dateForDay, item.id);
+        const isDone = !!state[key];
+        const isToday = day === TODAY_NAME;
+        const locked = isToday && (nowMins() > timeToMins(item.time) + 30) && !isDone;
+        const missedCls = locked ? ' missed' : '';
+        const lockedIcon = locked ? '<span style="font-size:10px;opacity:0.4;margin-left:4px">🔒</span>' : '';
         html += `
-          <div class="check-item${isDone ? ' done' : ''}" id="item-${item.id}" data-cat="${item.cat}" onclick="toggleItem('${item.id}','${day}',event)">
+          <div class="check-item${isDone ? ' done' : ''}${missedCls}" id="item-${item.id}" data-cat="${item.cat}" onclick="toggleItem('${item.id}','${day}','${item.time}',event)">
             <div class="checkbox">
               <svg class="checkmark" viewBox="0 0 12 10" fill="none">
                 <polyline points="1,5 4.5,9 11,1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="item-content">
-              <div class="item-text"><span class="item-emoji">${item.emoji}</span>${item.text}</div>
+              <div class="item-text"><span class="item-emoji">${item.emoji}</span>${item.text}${lockedIcon}</div>
               ${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}
             </div>
             <div class="item-time">${item.time}</div>
@@ -823,24 +975,77 @@ function buildPanels() {
 
     html += `
       <div class="celebration" id="cel-${day}">
-        <span class="cel-emoji">🌸✨🌸</span>
-        <div class="cel-title">Hari ${day} selesai!</div>
-        <div class="cel-sub">kamu luar biasa hari ini. istirahat yang baik 💕</div>
+        <span class="cel-emoji">✦ ✦ ✦</span>
+        <div class="cel-title">Ritual ${day} selesai!</div>
+        <div class="cel-sub">rest well, rise stronger.</div>
       </div>
     `;
 
     panel.innerHTML = html;
     container.appendChild(panel);
 
-    if (isDayComplete(day)) {
+    if (done === total && total > 0) {
       document.querySelector(`.day-tab[data-day="${day}"]`)?.classList.add('completed');
     }
   });
 }
 
+// ── extra CSS for locked/missed + shake + calendar ───────────────────────────
+const extraCSS = `
+  .check-item.missed {
+    opacity: 0.45;
+    cursor: not-allowed !important;
+    border-left-color: rgba(200,60,60,0.6) !important;
+    background: rgba(200,60,60,0.04) !important;
+  }
+  .check-item.missed .checkbox { border-color: rgba(200,60,60,0.4) !important; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-4px)}
+    75%{transform:translateX(4px)}
+  }
+  #streakCalendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 10px;
+  }
+`;
+const style = document.createElement('style');
+style.textContent = extraCSS;
+document.head.appendChild(style);
+
+// ── calendar section in header ───────────────────────────────────────────────
+function injectCalendarSection() {
+  const streakBar = document.querySelector('.streak-bar');
+  if (!streakBar) return;
+  const calDiv = document.createElement('div');
+  calDiv.style.cssText = 'margin-top:12px;';
+  calDiv.innerHTML = `
+    <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px">Riwayat 35 hari</div>
+    <div id="streakCalendar"></div>
+    <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text-light)">
+      <span><span style="color:rgba(100,200,100,0.8)">✦</span> selesai</span>
+      <span><span style="color:rgba(200,160,50,0.8)">·</span> sebagian</span>
+      <span><span style="color:rgba(200,60,60,0.8)">✕</span> terlewat</span>
+    </div>
+  `;
+  streakBar.parentNode.insertBefore(calDiv, streakBar.nextSibling);
+}
+
+// ── init ─────────────────────────────────────────────────────────────────────
 buildTabs();
 buildPanels();
-updateStreak();
+injectCalendarSection();
+buildCalendar();
+checkAndSaveToday();
+
+// Auto-refresh locks every minute
+setInterval(() => {
+  refreshLockStates();
+  buildCalendar();
+  checkAndSaveToday();
+}, 60000);
 </script>
 </body>
 </html>

@@ -418,10 +418,10 @@
   </div>
 
   <div class="streak-bar">
-    <span class="streak-icon">🔥</span>
+    <span class="streak-icon" id="streakIcon" style="filter:grayscale(1);opacity:0.35">🔥</span>
     <div class="streak-info">
-      <div class="streak-label">hari selesai minggu ini</div>
-      <div class="streak-count" id="streakCount">0 / 7</div>
+      <div class="streak-count" id="streakCount">0 hari</div>
+      <div class="streak-label">hari selesai berturut-turut</div>
     </div>
     <button class="reset-btn" onclick="resetAll()">reset</button>
   </div>
@@ -669,7 +669,6 @@ const SCHEDULE = {
 };
 
 // ── helpers ──────────────────────────────────────────────────────────────────
-const DAYS = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
 const DAY_JS_MAP = {0:'Minggu',1:'Senin',2:'Selasa',3:'Rabu',4:'Kamis',5:'Jumat',6:'Sabtu'};
 const TODAY_NAME = DAY_JS_MAP[new Date().getDay()];
 
@@ -789,9 +788,9 @@ function buildCalendar() {
     let bg = 'rgba(255,255,255,0.03)';
     let border = 'rgba(255,255,255,0.08)';
     let icon = '';
-    if (c.status === 'complete') { bg='rgba(100,200,100,0.15)'; border='rgba(100,200,100,0.4)'; icon='✦'; }
-    else if (c.status === 'missed') { bg='rgba(200,60,60,0.1)'; border='rgba(200,60,60,0.3)'; icon='✕'; }
-    else if (c.status === 'partial') { bg='rgba(200,160,50,0.1)'; border='rgba(200,160,50,0.3)'; icon='·'; }
+    if (c.status === 'complete') { bg='rgba(255,140,0,0.12)'; border='rgba(255,140,0,0.45)'; icon='🔥'; }
+    else if (c.status === 'missed') { bg='rgba(200,60,60,0.08)'; border='rgba(200,60,60,0.25)'; icon='✕'; }
+    else if (c.status === 'partial') { bg='rgba(120,120,120,0.08)'; border='rgba(120,120,120,0.2)'; icon='<span style=\'filter:grayscale(1);opacity:0.4;font-size:11px\'>🔥</span>'; }
     const todayStyle = c.isToday ? 'outline:2px solid var(--accent);outline-offset:2px;' : '';
     return `<div title="${c.dn} ${c.ds}" style="width:36px;height:36px;border-radius:4px;background:${bg};border:1px solid ${border};${todayStyle}display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);gap:1px;cursor:default"><span style="font-size:9px;opacity:0.5">${c.dayNum}</span><span style="font-size:11px">${icon}</span></div>`;
   }).join('');
@@ -799,7 +798,19 @@ function buildCalendar() {
   // Update streak count
   const streak = getStreak();
   const sc = document.getElementById('streakCount');
-  if (sc) sc.textContent = `${streak} hari 🔥`;
+  if (sc) sc.textContent = `${streak} hari`;
+  // Fire icon: only glow if today is complete
+  const todayStatus = evaluateDay(todayStr(), TODAY_NAME);
+  const icon = document.getElementById('streakIcon');
+  if (icon) {
+    if (todayStatus === 'complete') {
+      icon.style.filter = '';
+      icon.style.opacity = '1';
+    } else {
+      icon.style.filter = 'grayscale(1)';
+      icon.style.opacity = '0.35';
+    }
+  }
 }
 
 // ── auto-save today status ───────────────────────────────────────────────────
@@ -1025,9 +1036,9 @@ function injectCalendarSection() {
     <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px">Riwayat 35 hari</div>
     <div id="streakCalendar"></div>
     <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text-light)">
-      <span><span style="color:rgba(100,200,100,0.8)">✦</span> selesai</span>
-      <span><span style="color:rgba(200,160,50,0.8)">·</span> sebagian</span>
-      <span><span style="color:rgba(200,60,60,0.8)">✕</span> terlewat</span>
+      <span>🔥 selesai</span>
+      <span><span style="filter:grayscale(1);opacity:0.4">🔥</span> sebagian</span>
+      <span style="color:rgba(200,60,60,0.6)">✕ terlewat</span>
     </div>
   `;
   streakBar.parentNode.insertBefore(calDiv, streakBar.nextSibling);

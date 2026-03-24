@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalori Tracker 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --surface: #fff9f5;
+    --rose: #e8a0a0;
+    --accent: #d4858a;
+    --lavender: #c9b8e8;
+    --sage: #a8bfa8;
+    --gold: #e8d48a;
+    --peach: #f2c4b8;
+    --text: #3a2e2e;
+    --muted: #9a8080;
+    --border: rgba(232,160,160,0.2);
+    --card: rgba(255,255,255,0.7);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-weight:300; }
+
+  /* BACK BUTTON */
+  .back-nav { position:fixed; top:14px; left:16px; z-index:999; }
+  .back-nav a { display:inline-flex; align-items:center; gap:6px; font-size:.7rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); text-decoration:none; background:rgba(255,255,255,.75); backdrop-filter:blur(8px); border:1px solid rgba(201,184,232,.35); border-radius:20px; padding:6px 14px; transition:all .2s; }
+  .back-nav a:hover { color:var(--text); border-color:rgba(201,184,232,.7); }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg,#f9e8e0,#fce4ec 40%,#f3e5f5); padding:56px 24px 32px; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(232,160,160,.15),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(196,155,210,.12),transparent 50%); }
+  .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,6vw,3rem); font-weight:300; position:relative; margin-bottom:6px; }
+  .hero h1 em { font-style:italic; color:var(--accent); }
+  .hero p { font-size:.82rem; color:var(--muted); position:relative; }
+
+  /* CONTENT */
+  .content { max-width:520px; margin:0 auto; padding:24px 16px 100px; }
+
+  /* CARD */
+  .card { background:var(--card); backdrop-filter:blur(12px); border:1.5px solid var(--border); border-radius:20px; padding:20px; margin-bottom:16px; }
+
+  /* TARGET ROW */
+  .target-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .target-label { font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+  .target-edit { display:flex; align-items:center; gap:8px; }
+  .target-input { width:80px; border:1.5px solid rgba(201,184,232,.5); border-radius:10px; padding:4px 8px; font-size:.85rem; font-family:inherit; background:rgba(255,255,255,.8); color:var(--text); text-align:center; }
+  .target-input:focus { outline:none; border-color:var(--lavender); }
+  .target-unit { font-size:.75rem; color:var(--muted); }
+
+  /* RING */
+  .ring-wrap { display:flex; flex-direction:column; align-items:center; padding:8px 0 16px; position:relative; }
+  .ring-svg { width:180px; height:180px; transform:rotate(-90deg); }
+  .ring-bg { fill:none; stroke:rgba(232,160,160,.15); stroke-width:14; }
+  .ring-fill { fill:none; stroke-width:14; stroke-linecap:round; transition:stroke-dashoffset .6s cubic-bezier(.34,1.2,.64,1), stroke .4s; }
+  .ring-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
+  .ring-kcal { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:400; line-height:1; color:var(--text); }
+  .ring-sub { font-size:.7rem; color:var(--muted); margin-top:2px; }
+
+  /* MACRO BARS */
+  .macros { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+  .macro-item { background:rgba(255,255,255,.5); border-radius:12px; padding:10px; text-align:center; border:1px solid var(--border); }
+  .macro-val { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; }
+  .macro-label { font-size:.65rem; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .macro-bar-bg { height:4px; background:rgba(0,0,0,.06); border-radius:2px; margin-top:6px; }
+  .macro-bar-fill { height:4px; border-radius:2px; transition:width .5s ease; }
+
+  /* STATUS */
+  .status-banner { border-radius:12px; padding:10px 14px; font-size:.8rem; text-align:center; margin-bottom:16px; font-weight:400; transition:all .4s; }
+
+  /* SEARCH */
+  .search-wrap { position:relative; margin-bottom:12px; }
+  .search-input { width:100%; border:1.5px solid rgba(201,184,232,.4); border-radius:14px; padding:11px 16px 11px 40px; font-size:.88rem; font-family:inherit; background:rgba(255,255,255,.8); color:var(--text); transition:border-color .2s; }
+  .search-input:focus { outline:none; border-color:var(--lavender); }
+  .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:.9rem; pointer-events:none; }
+  .search-results { position:absolute; top:calc(100% + 4px); left:0; right:0; background:white; border:1.5px solid rgba(201,184,232,.4); border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,.08); z-index:100; max-height:240px; overflow-y:auto; display:none; }
+  .search-results.open { display:block; }
+  .search-item { padding:10px 16px; cursor:pointer; font-size:.85rem; border-bottom:1px solid rgba(0,0,0,.04); display:flex; justify-content:space-between; align-items:center; transition:background .15s; }
+  .search-item:last-child { border-bottom:none; }
+  .search-item:hover { background:rgba(201,184,232,.1); }
+  .search-item-name { color:var(--text); }
+  .search-item-cal { font-size:.75rem; color:var(--accent); font-weight:500; }
+  .search-item-unit { font-size:.7rem; color:var(--muted); margin-left:4px; }
+
+  /* MANUAL INPUT */
+  .manual-row { display:flex; gap:8px; margin-bottom:12px; }
+  .manual-input { flex:1; border:1.5px solid rgba(201,184,232,.4); border-radius:12px; padding:10px 12px; font-size:.82rem; font-family:inherit; background:rgba(255,255,255,.8); color:var(--text); }
+  .manual-input:focus { outline:none; border-color:var(--lavender); }
+  .btn-add { background:linear-gradient(135deg,rgba(212,133,138,.8),rgba(201,184,232,.8)); border:none; border-radius:12px; padding:10px 18px; font-size:.82rem; font-family:inherit; color:white; cursor:pointer; font-weight:500; white-space:nowrap; transition:all .2s; }
+  .btn-add:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(212,133,138,.3); }
+
+  /* PORTION MODAL */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.3); backdrop-filter:blur(4px); z-index:200; display:flex; align-items:flex-end; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity .3s; }
+  .modal-overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:white; border-radius:24px 24px 16px 16px; padding:24px; width:100%; max-width:400px; transform:translateY(20px); transition:transform .3s; }
+  .modal-overlay.open .modal { transform:translateY(0); }
+  .modal-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:4px; }
+  .modal-cal { font-size:.75rem; color:var(--muted); margin-bottom:16px; }
+  .portion-row { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .portion-btn { width:36px; height:36px; border-radius:50%; border:1.5px solid var(--border); background:white; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+  .portion-btn:hover { background:rgba(201,184,232,.2); }
+  .portion-val { flex:1; text-align:center; font-family:'Cormorant Garamond',serif; font-size:1.8rem; }
+  .portion-unit { font-size:.75rem; color:var(--muted); text-align:center; margin-bottom:16px; }
+  .portion-total { background:rgba(201,184,232,.15); border-radius:12px; padding:10px; text-align:center; margin-bottom:16px; font-size:.9rem; }
+  .portion-total span { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--accent); }
+  .modal-btns { display:flex; gap:8px; }
+  .btn-cancel { flex:1; border:1.5px solid var(--border); border-radius:12px; padding:10px; background:transparent; font-family:inherit; font-size:.82rem; color:var(--muted); cursor:pointer; }
+  .btn-confirm { flex:2; border:none; border-radius:12px; padding:10px; background:linear-gradient(135deg,rgba(212,133,138,.8),rgba(201,184,232,.8)); font-family:inherit; font-size:.82rem; color:white; cursor:pointer; font-weight:500; }
+
+  /* LOG LIST */
+  .log-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .log-title { font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+  .btn-clear { font-size:.7rem; color:var(--muted); background:none; border:none; cursor:pointer; padding:2px 6px; }
+  .log-empty { text-align:center; padding:20px; font-size:.82rem; color:var(--muted); font-style:italic; }
+  .log-item { display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-bottom:1px solid rgba(0,0,0,.04); animation:slideIn .25s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateX(8px)} to{opacity:1;transform:translateX(0)} }
+  .log-item:last-child { border-bottom:none; }
+  .log-item-left { flex:1; }
+  .log-item-name { font-size:.85rem; color:var(--text); }
+  .log-item-detail { font-size:.72rem; color:var(--muted); margin-top:1px; }
+  .log-item-cal { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--accent); margin-right:8px; }
+  .log-item-del { background:none; border:none; color:rgba(200,100,100,.5); cursor:pointer; font-size:.9rem; padding:2px 4px; border-radius:6px; transition:all .2s; }
+  .log-item-del:hover { color:rgba(200,100,100,1); background:rgba(200,100,100,.08); }
+
+  /* STREAK + CALENDAR */
+  .streak-bar { display:flex; align-items:center; gap:14px; background:var(--card); border:1.5px solid var(--border); border-radius:20px; padding:16px 20px; margin-bottom:12px; }
+  .streak-icon { font-size:1.5rem; }
+  .streak-info { flex:1; }
+  .streak-count { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:600; }
+  .streak-label { font-size:.72rem; color:var(--muted); margin-top:1px; }
+  .cal-card { background:var(--card); border:1.5px solid rgba(201,184,232,.2); border-radius:18px; padding:16px; margin-bottom:16px; }
+  .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-month { font-size:.8rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; }
+  .cal-legend { display:flex; gap:10px; font-size:10px; color:var(--muted); }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-day-header { text-align:center; font-size:9px; font-weight:600; letter-spacing:1px; color:var(--muted); opacity:.5; padding-bottom:4px; }
+  .cal-cell { aspect-ratio:1; border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; color:var(--muted); gap:1px; cursor:default; border:1px solid transparent; }
+
+  /* PARTICLES */
+  .particle { position:fixed; pointer-events:none; font-size:1.2rem; animation:particlePop .8s ease forwards; z-index:999; }
+  @keyframes particlePop { 0%{opacity:1;transform:translate(0,0) scale(1)} 100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3)} }
+
+  /* DATE NAV */
+  .date-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+  .date-nav-btn { background:none; border:1.5px solid var(--border); border-radius:10px; padding:6px 12px; font-size:.8rem; cursor:pointer; color:var(--muted); transition:all .2s; }
+  .date-nav-btn:hover { border-color:rgba(201,184,232,.6); color:var(--text); }
+  .date-nav-label { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; }
+  .date-nav-today { font-size:.65rem; color:var(--accent); display:block; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="back-nav"><a href="pastel-home.html">← home</a></div>
+
+<div class="hero">
+  <h1><em>Kalori</em> Tracker 🌸</h1>
+  <p>catat · pantau · jaga target harianmu</p>
+</div>
+
+<div class="content">
+
+  <!-- TARGET -->
+  <div class="card">
+    <div class="target-row">
+      <div class="target-label">🎯 Target Harian</div>
+      <div class="target-edit">
+        <input type="number" class="target-input" id="targetInput" value="1900" min="1000" max="4000">
+        <span class="target-unit">kcal</span>
+      </div>
+    </div>
+
+    <!-- DATE NAV -->
+    <div class="date-nav">
+      <button class="date-nav-btn" onclick="changeDate(-1)">← kemarin</button>
+      <div class="date-nav-label" id="dateLabel">
+        <span id="dateLabelMain">Hari ini</span>
+        <span class="date-nav-today" id="dateLabelSub"></span>
+      </div>
+      <button class="date-nav-btn" id="btnNext" onclick="changeDate(1)">besok →</button>
+    </div>
+
+    <!-- RING -->
+    <div class="ring-wrap">
+      <svg class="ring-svg" viewBox="0 0 180 180">
+        <circle class="ring-bg" cx="90" cy="90" r="76"/>
+        <circle class="ring-fill" id="ringFill" cx="90" cy="90" r="76"
+          stroke-dasharray="477.5" stroke-dashoffset="477.5"
+          stroke="url(#ringGrad)"/>
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#e8a0a0"/>
+            <stop offset="100%" style="stop-color:#c9b8e8"/>
+          </linearGradient>
+          <linearGradient id="ringOver" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#e8a070"/>
+            <stop offset="100%" style="stop-color:#e87070"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="ring-center">
+        <div class="ring-kcal" id="ringKcal">0</div>
+        <div class="ring-sub" id="ringSub">dari <span id="ringTarget">1900</span> kcal</div>
+      </div>
+    </div>
+
+    <!-- MACROS -->
+    <div class="macros">
+      <div class="macro-item">
+        <div class="macro-val" id="macroCarb">0g</div>
+        <div class="macro-label">Karbo</div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" id="barCarb" style="background:#e8d48a;width:0%"></div></div>
+      </div>
+      <div class="macro-item">
+        <div class="macro-val" id="macroProtein">0g</div>
+        <div class="macro-label">Protein</div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" id="barProtein" style="background:#e8a0a0;width:0%"></div></div>
+      </div>
+      <div class="macro-item">
+        <div class="macro-val" id="macroFat">0g</div>
+        <div class="macro-label">Lemak</div>
+        <div class="macro-bar-bg"><div class="macro-bar-fill" id="barFat" style="background:#c9b8e8;width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="status-banner" id="statusBanner"></div>
+
+  </div>
+
+  <!-- INPUT -->
+  <div class="card">
+    <div class="log-header" style="margin-bottom:12px">
+      <div class="target-label">➕ Tambah Makanan</div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari makanan... (nasi, ayam, tempe...)">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- MANUAL -->
+    <div style="font-size:.72rem;color:var(--muted);margin-bottom:8px;text-align:center">— atau input manual —</div>
+    <div class="manual-row">
+      <input type="text" class="manual-input" id="manualName" placeholder="Nama makanan">
+      <input type="number" class="manual-input" id="manualCal" placeholder="kcal" style="width:80px;flex:none">
+      <button class="btn-add" onclick="addManual()">+ Tambah</button>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="card">
+    <div class="log-header">
+      <div class="target-label">📋 Log Hari Ini</div>
+      <button class="btn-clear" onclick="clearLog()">hapus semua</button>
+    </div>
+    <div id="logList"><div class="log-empty">Belum ada makanan dicatat hari ini 🌸</div></div>
+  </div>
+
+  <!-- STREAK -->
+  <div class="streak-bar">
+    <span class="streak-icon" id="streakIcon" style="filter:grayscale(1);opacity:.3">🔥</span>
+    <div class="streak-info">
+      <div class="streak-count" id="streakCount">0 hari</div>
+      <div class="streak-label">target kalori terpenuhi berturut-turut</div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="cal-card">
+    <div class="cal-header">
+      <div class="cal-month" id="calMonthLabel"></div>
+      <div class="cal-legend">
+        <span>🔥 tercapai</span>
+        <span style="opacity:.4">🔥 sebagian</span>
+        <span style="color:rgba(200,60,60,.6)">✕ terlewat</span>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+
+</div>
+
+<!-- PORTION MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalFoodName">Nasi Putih</div>
+    <div class="modal-cal" id="modalFoodBase"></div>
+    <div class="portion-row">
+      <button class="portion-btn" onclick="changePortion(-1)">−</button>
+      <div class="portion-val" id="portionVal">1</div>
+      <button class="portion-btn" onclick="changePortion(1)">+</button>
+    </div>
+    <div class="portion-unit" id="portionUnit">porsi</div>
+    <div class="portion-total">Total: <span id="portionTotal">0</span> kcal</div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Batal</button>
+      <button class="btn-confirm" onclick="confirmAdd()">Tambahkan ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── FOOD DATABASE ────────────────────────────────────────────────────────────
+const FOODS = [
+  // Nasi & Karbo
+  {name:'Nasi putih',cal:175,carb:38,protein:3,fat:0.5,unit:'centong (150g)'},
+  {name:'Nasi merah',cal:165,carb:35,protein:3.5,fat:1,unit:'centong (150g)'},
+  {name:'Nasi goreng',cal:260,carb:38,protein:7,fat:9,unit:'porsi (200g)'},
+  {name:'Oatmeal',cal:150,carb:27,protein:5,fat:3,unit:'porsi (50g kering)'},
+  {name:'Overnight oats',cal:220,carb:35,protein:8,fat:5,unit:'porsi (200ml)'},
+  {name:'Roti gandum',cal:80,carb:15,protein:3,fat:1,unit:'lembar'},
+  {name:'Kentang rebus',cal:90,carb:21,protein:2,fat:0.1,unit:'buah sedang (100g)'},
+  {name:'Mie instan',cal:330,carb:50,protein:8,fat:11,unit:'bungkus'},
+  // Protein Hewani
+  {name:'Ayam panggang',cal:165,carb:0,protein:31,fat:4,unit:'potong dada (120g)'},
+  {name:'Ayam goreng',cal:230,carb:8,protein:28,fat:10,unit:'potong (120g)'},
+  {name:'Ayam suwir',cal:150,carb:2,protein:28,fat:4,unit:'porsi (100g)'},
+  {name:'Telur rebus',cal:77,carb:0.5,protein:6,fat:5,unit:'butir'},
+  {name:'Telur dadar',cal:95,carb:1,protein:7,fat:7,unit:'butir'},
+  {name:'Telur ceplok',cal:90,carb:0.5,protein:6,fat:7,unit:'butir'},
+  {name:'Ikan kembung kukus',cal:110,carb:0,protein:22,fat:2.5,unit:'ekor (100g)'},
+  {name:'Ikan goreng',cal:175,carb:5,protein:22,fat:7,unit:'ekor (100g)'},
+  {name:'Ikan tuna',cal:120,carb:0,protein:26,fat:1.5,unit:'porsi (100g)'},
+  {name:'Ikan sarden',cal:140,carb:0,protein:20,fat:6,unit:'porsi (100g)'},
+  // Protein Nabati
+  {name:'Tempe goreng',cal:160,carb:9,protein:15,fat:8,unit:'potong (50g)'},
+  {name:'Tempe orek',cal:180,carb:12,protein:14,fat:8,unit:'porsi (75g)'},
+  {name:'Tahu goreng',cal:90,carb:2,protein:8,fat:5,unit:'biji (60g)'},
+  {name:'Tahu kukus',cal:55,carb:1.5,protein:8,fat:2,unit:'biji (70g)'},
+  {name:'Tahu bacem',cal:100,carb:6,protein:8,fat:5,unit:'biji (70g)'},
+  // Sayuran
+  {name:'Brokoli kukus',cal:35,carb:7,protein:2.5,fat:0.5,unit:'porsi (100g)'},
+  {name:'Bayam tumis',cal:40,carb:4,protein:3,fat:1.5,unit:'porsi (100g)'},
+  {name:'Tumis kangkung',cal:45,carb:5,protein:2,fat:2,unit:'porsi (100g)'},
+  {name:'Wortel kukus',cal:40,carb:9,protein:1,fat:0.2,unit:'porsi (100g)'},
+  {name:'Buncis kukus',cal:30,carb:7,protein:2,fat:0.1,unit:'porsi (100g)'},
+  {name:'Capcay',cal:80,carb:8,protein:4,fat:3,unit:'porsi (150g)'},
+  {name:'Lalapan (timun+tomat)',cal:25,carb:5,protein:1,fat:0.2,unit:'porsi'},
+  // Buah
+  {name:'Pisang',cal:90,carb:23,protein:1,fat:0.3,unit:'buah sedang'},
+  {name:'Apel',cal:80,carb:21,protein:0.5,fat:0.2,unit:'buah sedang'},
+  {name:'Alpukat',cal:120,carb:6,protein:1.5,fat:11,unit:'setengah buah'},
+  {name:'Jeruk',cal:60,carb:15,protein:1,fat:0.2,unit:'buah'},
+  {name:'Semangka',cal:50,carb:12,protein:1,fat:0.2,unit:'porsi (200g)'},
+  // Snack & Dairy
+  {name:'Greek yogurt plain',cal:130,carb:9,protein:15,fat:3,unit:'cup (150g)'},
+  {name:'Kacang almond',cal:170,carb:6,protein:6,fat:15,unit:'segenggam (30g)'},
+  {name:'Kacang mete',cal:175,carb:10,protein:5,fat:14,unit:'segenggam (30g)'},
+  {name:'Granola',cal:200,carb:34,protein:5,fat:6,unit:'porsi (50g)'},
+  {name:'Peanut butter',cal:95,carb:3,protein:4,fat:8,unit:'sendok makan (16g)'},
+  {name:'Madu',cal:60,carb:17,protein:0,fat:0,unit:'sendok makan'},
+  // Minuman
+  {name:'Susu sapi full cream',cal:150,carb:12,protein:8,fat:8,unit:'gelas (250ml)'},
+  {name:'Susu kedelai',cal:100,carb:12,protein:7,fat:3,unit:'gelas (250ml)'},
+  {name:'Teh hijau tanpa gula',cal:2,carb:0,protein:0,fat:0,unit:'gelas'},
+  {name:'Kopi hitam',cal:5,carb:0,protein:0,fat:0,unit:'gelas'},
+  {name:'Air putih',cal:0,carb:0,protein:0,fat:0,unit:'gelas'},
+  {name:'Jus jeruk segar',cal:110,carb:26,protein:2,fat:0.5,unit:'gelas (250ml)'},
+  // Makanan lain
+  {name:'Indomie goreng',cal:390,carb:53,protein:9,fat:14,unit:'bungkus'},
+  {name:'Indomie kuah',cal:320,carb:46,protein:8,fat:11,unit:'bungkus'},
+  {name:'Rendang sapi',cal:200,carb:4,protein:18,fat:12,unit:'potong (80g)'},
+  {name:'Opor ayam',cal:220,carb:5,protein:20,fat:13,unit:'porsi (100g)'},
+  {name:'Soto ayam',cal:180,carb:12,protein:16,fat:7,unit:'mangkuk'},
+  {name:'Gado-gado',cal:280,carb:25,protein:12,fat:15,unit:'porsi'},
+  {name:'Martabak manis',cal:350,carb:55,protein:8,fat:10,unit:'potong (100g)'},
+  {name:'Kerupuk',cal:50,carb:10,protein:0.5,fat:1,unit:'buah besar'},
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'kalori-log-v1';
+const TARGET_KEY  = 'kalori-target-v1';
+const HISTORY_KEY = 'kalori-history-v1';
+
+let currentDate = todayStr();
+let target = parseInt(localStorage.getItem(TARGET_KEY) || '1900');
+let logs = {};        // { 'YYYY-M-D': [{name, cal, carb, protein, fat}] }
+let history = {};     // { 'YYYY-M-D': 'met'|'over'|'under' }
+let pendingFood = null;
+let portionCount = 1;
+
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function dateStr(d) {
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function load() {
+  logs     = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  history  = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
+  target   = parseInt(localStorage.getItem(TARGET_KEY) || '1900');
+  document.getElementById('targetInput').value = target;
+}
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  localStorage.setItem(TARGET_KEY, target.toString());
+}
+
+// ─── DATE NAV ─────────────────────────────────────────────────────────────────
+function changeDate(delta) {
+  const parts = currentDate.split('-').map(Number);
+  const d = new Date(parts[0], parts[1]-1, parts[2]);
+  d.setDate(d.getDate() + delta);
+  // Don't go beyond today
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (d > today) return;
+  currentDate = dateStr(d);
+  updateDateLabel();
+  render();
+}
+function updateDateLabel() {
+  const today = todayStr();
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const parts = currentDate.split('-').map(Number);
+  const d = new Date(parts[0], parts[1]-1, parts[2]);
+  const main = document.getElementById('dateLabelMain');
+  const sub  = document.getElementById('dateLabelSub');
+  const btnNext = document.getElementById('btnNext');
+  if (currentDate === today) {
+    main.textContent = 'Hari ini';
+    sub.textContent  = days[d.getDay()] + ', ' + parts[2] + ' ' + months[parts[1]-1];
+    btnNext.style.opacity = '0.3';
+    btnNext.style.pointerEvents = 'none';
+  } else {
+    main.textContent = days[d.getDay()] + ', ' + parts[2] + ' ' + months[parts[1]-1] + ' ' + parts[0];
+    sub.textContent  = '';
+    btnNext.style.opacity = '1';
+    btnNext.style.pointerEvents = 'auto';
+  }
+}
+
+// ─── CALORIES ─────────────────────────────────────────────────────────────────
+function getTotals(date) {
+  const items = logs[date] || [];
+  return items.reduce((a,b) => ({
+    cal: a.cal + b.cal,
+    carb: a.carb + b.carb,
+    protein: a.protein + b.protein,
+    fat: a.fat + b.fat,
+  }), {cal:0, carb:0, protein:0, fat:0});
+}
+
+function render() {
+  const totals = getTotals(currentDate);
+  const pct = Math.min(totals.cal / target, 1);
+  const circumference = 477.5;
+  const offset = circumference - pct * circumference;
+
+  // Ring
+  const ring = document.getElementById('ringFill');
+  ring.style.strokeDashoffset = offset;
+  ring.setAttribute('stroke', totals.cal > target ? 'url(#ringOver)' : 'url(#ringGrad)');
+  document.getElementById('ringKcal').textContent = Math.round(totals.cal);
+  document.getElementById('ringTarget').textContent = target;
+
+  // Macros
+  document.getElementById('macroCarb').textContent    = Math.round(totals.carb)+'g';
+  document.getElementById('macroProtein').textContent = Math.round(totals.protein)+'g';
+  document.getElementById('macroFat').textContent     = Math.round(totals.fat)+'g';
+  // Macro bars (rough targets: carbo ~240g, protein ~95g, fat ~55g)
+  document.getElementById('barCarb').style.width    = Math.min(totals.carb/240*100,100)+'%';
+  document.getElementById('barProtein').style.width = Math.min(totals.protein/95*100,100)+'%';
+  document.getElementById('barFat').style.width     = Math.min(totals.fat/55*100,100)+'%';
+
+  // Status banner
+  const banner = document.getElementById('statusBanner');
+  const remaining = target - totals.cal;
+  if (totals.cal === 0) {
+    banner.style.background = 'rgba(201,184,232,0.1)';
+    banner.style.color = 'var(--muted)';
+    banner.textContent = 'Belum ada makanan hari ini 🌸';
+  } else if (totals.cal < target * 0.5) {
+    banner.style.background = 'rgba(201,184,232,0.1)';
+    banner.style.color = '#7a6aaa';
+    banner.textContent = `Masih perlu ${Math.round(remaining)} kcal lagi · yuk makan! 🥣`;
+  } else if (totals.cal < target * 0.9) {
+    banner.style.background = 'rgba(168,191,168,0.12)';
+    banner.style.color = '#5a7a5a';
+    banner.textContent = `Sisa ${Math.round(remaining)} kcal · hampir target! 💪`;
+  } else if (totals.cal <= target) {
+    banner.style.background = 'rgba(168,191,168,0.2)';
+    banner.style.color = '#3a6a3a';
+    banner.textContent = `✨ Target hampir tercapai! Sisa ${Math.round(remaining)} kcal`;
+  } else if (totals.cal <= target * 1.1) {
+    banner.style.background = 'rgba(232,212,138,0.2)';
+    banner.style.color = '#7a6a1a';
+    banner.textContent = `⚠️ Melebihi target ${Math.round(totals.cal - target)} kcal · pertimbangkan aktivitas tambahan`;
+  } else {
+    banner.style.background = 'rgba(200,100,100,0.1)';
+    banner.style.color = '#8a3a3a';
+    banner.textContent = `🛑 Melebihi target ${Math.round(totals.cal - target)} kcal · cukup untuk hari ini`;
+  }
+
+  // Log
+  renderLog();
+
+  // Save history for today
+  if (currentDate === todayStr()) {
+    if (totals.cal >= target * 0.9 && totals.cal <= target * 1.1) history[currentDate] = 'met';
+    else if (totals.cal > target * 1.1) history[currentDate] = 'over';
+    else if (totals.cal > 0) history[currentDate] = 'partial';
+    save();
+  }
+
+  // Streak + calendar
+  renderStreak();
+  renderCalendar();
+}
+
+function renderLog() {
+  const list = document.getElementById('logList');
+  const items = logs[currentDate] || [];
+  if (items.length === 0) {
+    list.innerHTML = '<div class="log-empty">Belum ada makanan dicatat 🌸</div>';
+    return;
+  }
+  list.innerHTML = items.map((item, i) => `
+    <div class="log-item">
+      <div class="log-item-left">
+        <div class="log-item-name">${item.name}</div>
+        <div class="log-item-detail">${item.detail || ''}</div>
+      </div>
+      <span class="log-item-cal">${Math.round(item.cal)} kcal</span>
+      <button class="log-item-del" onclick="removeItem(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeItem(i) {
+  if (!logs[currentDate]) return;
+  logs[currentDate].splice(i, 1);
+  save(); render();
+}
+
+function clearLog() {
+  if (!confirm('Hapus semua log hari ini?')) return;
+  logs[currentDate] = [];
+  save(); render();
+}
+
+// ─── STREAK & CALENDAR ────────────────────────────────────────────────────────
+function getStreak() {
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 60; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const ds = dateStr(d);
+    const status = history[ds];
+    if (status === 'met') streak++;
+    else if (i > 0) break;
+  }
+  return streak;
+}
+
+function renderStreak() {
+  const streak = getStreak();
+  document.getElementById('streakCount').textContent = streak + ' hari';
+  const icon = document.getElementById('streakIcon');
+  const todayStatus = history[todayStr()];
+  if (todayStatus === 'met') {
+    icon.style.filter = '';
+    icon.style.opacity = '1';
+  } else {
+    icon.style.filter = 'grayscale(1)';
+    icon.style.opacity = '.3';
+  }
+}
+
+function renderCalendar() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const monthNames = ['Januari','Februari','Maret','April','Mei','Jun','Jul','Agustus','September','Oktober','November','Desember'];
+  document.getElementById('calMonthLabel').textContent = monthNames[month] + ' ' + year;
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const startOffset = (firstDay + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const dayHeaders = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
+
+  let html = dayHeaders.map(d => `<div class="cal-day-header">${d}</div>`).join('');
+  for (let i = 0; i < startOffset; i++) html += '<div></div>';
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(year, month, day);
+    const ds = dateStr(d);
+    const isToday = ds === todayStr();
+    const isFuture = d > today && !isToday;
+    const status = history[ds];
+
+    let bg = 'rgba(255,255,255,0.03)', border = 'rgba(0,0,0,0.06)', icon = '', opacity = '1';
+    if (isFuture) { opacity = '0.25'; }
+    else if (status === 'met')     { bg='rgba(255,140,0,.1)'; border='rgba(255,140,0,.4)'; icon='🔥'; }
+    else if (status === 'over')    { bg='rgba(200,60,60,.06)'; border='rgba(200,60,60,.2)'; icon='✕'; }
+    else if (status === 'partial') { bg='rgba(200,200,200,.08)'; border='rgba(200,200,200,.2)'; icon='<span style="filter:grayscale(1);opacity:.4;font-size:10px">🔥</span>'; }
+
+    const todayBorder = isToday ? 'outline:2px solid var(--accent);outline-offset:2px;' : '';
+    html += `<div class="cal-cell" style="background:${bg};border-color:${border};opacity:${opacity};${todayBorder}" title="${ds}">
+      <span style="font-size:9px;opacity:.6">${day}</span>
+      <span style="font-size:10px">${icon}</span>
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+// ─── SEARCH ───────────────────────────────────────────────────────────────────
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (q.length < 1) { searchResults.classList.remove('open'); return; }
+  const results = FOODS.filter(f => f.name.toLowerCase().includes(q)).slice(0, 8);
+  if (results.length === 0) { searchResults.classList.remove('open'); return; }
+  searchResults.innerHTML = results.map((f, i) => `
+    <div class="search-item" onclick="openModal(${FOODS.indexOf(f)})">
+      <div>
+        <span class="search-item-name">${f.name}</span>
+        <span class="search-item-unit" style="color:var(--muted)"> / ${f.unit}</span>
+      </div>
+      <span class="search-item-cal">${f.cal} kcal</span>
+    </div>
+  `).join('');
+  searchResults.classList.add('open');
+});
+
+document.addEventListener('click', e => {
+  if (!searchInput.contains(e.target) && !searchResults.contains(e.target))
+    searchResults.classList.remove('open');
+});
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+function openModal(foodIdx) {
+  pendingFood = FOODS[foodIdx];
+  portionCount = 1;
+  document.getElementById('modalFoodName').textContent = pendingFood.name;
+  document.getElementById('modalFoodBase').textContent = `${pendingFood.cal} kcal per ${pendingFood.unit}`;
+  document.getElementById('portionUnit').textContent = pendingFood.unit;
+  updatePortionUI();
+  document.getElementById('modalOverlay').classList.add('open');
+  searchResults.classList.remove('open');
+  searchInput.value = '';
+}
+
+function changePortion(delta) {
+  portionCount = Math.max(0.5, portionCount + delta * 0.5);
+  if (portionCount > 1) portionCount = Math.round(portionCount);
+  updatePortionUI();
+}
+
+function updatePortionUI() {
+  document.getElementById('portionVal').textContent = portionCount;
+  document.getElementById('portionTotal').innerHTML = `Total: <span>${Math.round(pendingFood.cal * portionCount)}</span> kcal`;
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  pendingFood = null;
+}
+
+function confirmAdd() {
+  if (!pendingFood) return;
+  addToLog({
+    name: pendingFood.name,
+    cal: pendingFood.cal * portionCount,
+    carb: pendingFood.carb * portionCount,
+    protein: pendingFood.protein * portionCount,
+    fat: pendingFood.fat * portionCount,
+    detail: `${portionCount} ${portionCount === 1 ? '' : 'x '}${pendingFood.unit}`,
+  });
+  closeModal();
+  spawnParticles();
+}
+
+// ─── MANUAL ───────────────────────────────────────────────────────────────────
+function addManual() {
+  const name = document.getElementById('manualName').value.trim();
+  const cal  = parseFloat(document.getElementById('manualCal').value);
+  if (!name || isNaN(cal) || cal <= 0) {
+    alert('Isi nama makanan dan kalori ya!'); return;
+  }
+  addToLog({ name, cal, carb: 0, protein: 0, fat: 0, detail: 'input manual' });
+  document.getElementById('manualName').value = '';
+  document.getElementById('manualCal').value = '';
+  spawnParticles();
+}
+
+function addToLog(item) {
+  if (!logs[currentDate]) logs[currentDate] = [];
+  logs[currentDate].push(item);
+  save();
+  render();
+}
+
+// ─── TARGET ───────────────────────────────────────────────────────────────────
+document.getElementById('targetInput').addEventListener('change', () => {
+  const val = parseInt(document.getElementById('targetInput').value);
+  if (val >= 1000 && val <= 4000) { target = val; save(); render(); }
+});
+
+// ─── PARTICLES ────────────────────────────────────────────────────────────────
+function spawnParticles() {
+  const emojis = ['🌸','✨','💫','🍎','🥦','⭐'];
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (30 + Math.random() * 40) + 'vw';
+      el.style.top  = (40 + Math.random() * 20) + 'vh';
+      el.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+      el.style.setProperty('--dy', (-(Math.random() * 80 + 40)) + 'px');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    }, i * 80);
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+load();
+updateDateLabel();
+render();
+</script>
+</body>
+</html>

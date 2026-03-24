@@ -32,8 +32,8 @@
   .card-link::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,184,232,.18),rgba(242,196,184,.12));opacity:0;transition:opacity .3s;border-radius:inherit;}
   .card-link:hover::before{opacity:1;}
   .card-link:hover{transform:translateY(-4px) scale(1.01);border-color:rgba(201,184,232,.55);box-shadow:0 12px 40px rgba(180,160,220,.15);}
-  .card-link:nth-child(1){animation:fadeUp .7s .35s cubic-bezier(.34,1.56,.64,1) both;}
-  .card-link:nth-child(2){animation:fadeUp .7s .45s cubic-bezier(.34,1.56,.64,1) both;}
+  .card-link:nth-child(1){animation:fadeUp .7s .35s cubic-bezier(.34,1.56,.64,1) both;}.card-link:nth-child(2){animation:fadeUp .7s .45s cubic-bezier(.34,1.56,.64,1) both;}.card-link:nth-child(3){animation:fadeUp .7s .55s cubic-bezier(.34,1.56,.64,1) both;}
+  
   .card-icon{flex-shrink:0;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;position:relative;z-index:1;}
   .card-icon.lav{background:rgba(201,184,232,.25);}
   .card-icon.pch{background:rgba(242,196,184,.3);}
@@ -58,6 +58,11 @@
     <a href="pastel-jadwal.html" class="card-link">
       <div class="card-icon lav">📅</div>
       <div class="card-text"><div class="card-title">Jadwal & Panduan</div><div class="card-desc">Jadwal mingguan · workout · diet · skincare · meal prep · haircare · postur</div></div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a href="pastel-kalori.html" class="card-link">
+      <div class="card-icon" style="background:rgba(232,212,138,0.25)">🔥</div>
+      <div class="card-text"><div class="card-title">Kalori Tracker</div><div class="card-desc">Catat makanan · pantau kalori · streak harian · riwayat bulanan</div></div>
       <span class="card-arrow">→</span>
     </a>
     <a href="pastel-checklist.html" class="card-link">

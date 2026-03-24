@@ -731,28 +731,11 @@ function save() {
   localStorage.setItem(STREAK_KEY, JSON.stringify(streakData));
 }
 
-// ── time locking ─────────────────────────────────────────────────────────────
-function timeToMins(t) {
-  const [h,m] = t.split(':').map(Number);
-  return h*60 + m;
-}
-
-function nowMins() {
-  const n = new Date();
-  return n.getHours()*60 + n.getMinutes();
-}
-
-function isItemLocked(item) {
-  // Only lock on today's items, only if time has passed by >30 min
-  if (currentDay !== TODAY_NAME) return false;
-  return nowMins() > timeToMins(item.time) + 30;
-}
-
-function isItemMissed(item) {
-  // Locked AND not checked for today
-  if (!isItemLocked(item)) return false;
-  const key = itemKey(todayStr(), item.id);
-  return !state[key];
+// ── day locking ──────────────────────────────────────────────────────────────
+function isDayLocked(day) {
+  // Lock all days except today — past days can't be edited (no cheating),
+  // future days can't be edited yet
+  return day !== TODAY_NAME;
 }
 
 // ── streak logic ─────────────────────────────────────────────────────────────
@@ -946,13 +929,11 @@ function updateProgress(day) {
 }
 
 function toggleItem(id, day, itemTime, e) {
-  if (day === TODAY_NAME) {
-    const locked = nowMins() > timeToMins(itemTime) + 30;
-    if (locked) {
-      const el = document.getElementById('item-'+id);
-      if (el) { el.style.animation='shake .3s ease'; setTimeout(()=>el.style.animation='',300); }
-      return;
-    }
+  if (isDayLocked(day)) {
+    // Show shake feedback
+    const el = document.getElementById('item-'+id);
+    if (el) { el.style.animation='shake .3s ease'; setTimeout(()=>el.style.animation='',300); }
+    return;
   }
   const key = itemKey(day === TODAY_NAME ? todayStr() : day, id);
   state[key] = !state[key];
@@ -974,15 +955,7 @@ function switchDay(day) {
 }
 
 function refreshLockStates() {
-  if (currentDay !== TODAY_NAME) return;
-  getAllItems(TODAY_NAME).forEach(item => {
-    const el = document.getElementById('item-'+item.id);
-    if (!el) return;
-    const locked = nowMins() > timeToMins(item.time) + 30;
-    const checked = !!state[itemKey(todayStr(), item.id)];
-    el.classList.toggle('locked', locked && !checked);
-    el.classList.toggle('missed', locked && !checked);
-  });
+  // Day-level locking — nothing to refresh per-item
 }
 
 function spawnParticle(x, y) {
@@ -1044,24 +1017,30 @@ function buildPanels() {
       </div>
     `;
 
+    const dayLocked = isDayLocked(day);
+    if (dayLocked) {
+      const isPast = DAYS.indexOf(day) < DAYS.indexOf(TODAY_NAME) ||
+        (day === 'Minggu' && TODAY_NAME !== 'Minggu');
+      html += `<div style="text-align:center;padding:8px 0 14px;font-size:.75rem;color:var(--text-light);opacity:.6">
+        🔒 ${isPast ? 'Hari ini sudah lewat — tidak bisa diubah' : 'Hari ini belum tiba — sabar ya!'}
+      </div>`;
+    }
+
     for (const [section, sectionItems] of Object.entries(sched.sections)) {
       html += `<div class="section-label">${section}</div><div class="checklist">`;
       for (const item of sectionItems) {
         const key = itemKey(dateForDay, item.id);
         const isDone = !!state[key];
-        const isToday = day === TODAY_NAME;
-        const locked = isToday && (nowMins() > timeToMins(item.time) + 30) && !isDone;
-        const missedCls = locked ? ' missed' : '';
-        const lockedIcon = locked ? '<span style="font-size:10px;opacity:0.4;margin-left:4px">🔒</span>' : '';
+        const lockedStyle = dayLocked ? 'opacity:0.5;cursor:not-allowed;' : '';
         html += `
-          <div class="check-item${isDone ? ' done' : ''}${missedCls}" id="item-${item.id}" data-cat="${item.cat}" onclick="toggleItem('${item.id}','${day}','${item.time}',event)">
+          <div class="check-item${isDone ? ' done' : ''}" id="item-${item.id}" data-cat="${item.cat}" style="${lockedStyle}" onclick="toggleItem('${item.id}','${day}','${item.time}',event)">
             <div class="checkbox">
               <svg class="checkmark" viewBox="0 0 12 10" fill="none">
                 <polyline points="1,5 4.5,9 11,1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <div class="item-content">
-              <div class="item-text"><span class="item-emoji">${item.emoji}</span>${item.text}${lockedIcon}</div>
+              <div class="item-text"><span class="item-emoji">${item.emoji}</span>${item.text}</div>
               ${item.sub ? `<div class="item-sub">${item.sub}</div>` : ''}
             </div>
             <div class="item-time">${item.time}</div>
@@ -1114,9 +1093,8 @@ injectCalendarSection();
 buildCalendar();
 checkAndSaveToday();
 
-// Auto-refresh locks every minute
+// Refresh calendar every minute
 setInterval(() => {
-  refreshLockStates();
   buildCalendar();
   checkAndSaveToday();
 }, 60000);

@@ -374,6 +374,8 @@ const FOODS = [
 const STORAGE_KEY = 'kalori-log-v1';
 const TARGET_KEY  = 'kalori-target-v1';
 const HISTORY_KEY = 'kalori-history-v1';
+const CUSTOM_KEY  = 'kalori-custom-v1';
+let customFoods = [];
 
 let currentDate = todayStr();
 let target = parseInt(localStorage.getItem(TARGET_KEY) || '1900');
@@ -390,15 +392,17 @@ function dateStr(d) {
   return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
 }
 function load() {
-  logs     = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-  history  = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
-  target   = parseInt(localStorage.getItem(TARGET_KEY) || '1900');
+  logs        = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  history     = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
+  target      = parseInt(localStorage.getItem(TARGET_KEY) || '1900');
+  customFoods = JSON.parse(localStorage.getItem(CUSTOM_KEY) || '[]');
   document.getElementById('targetInput').value = target;
 }
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   localStorage.setItem(TARGET_KEY, target.toString());
+  localStorage.setItem(CUSTOM_KEY, JSON.stringify(customFoods));
 }
 
 // ─── DATE NAV ─────────────────────────────────────────────────────────────────
@@ -617,17 +621,21 @@ const searchResults = document.getElementById('searchResults');
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
   if (q.length < 1) { searchResults.classList.remove('open'); return; }
-  const results = FOODS.filter(f => f.name.toLowerCase().includes(q)).slice(0, 8);
+  const allFoods = [...customFoods.map(f => ({...f, custom:true})), ...FOODS];
+  const results = allFoods.filter(f => f.name.toLowerCase().includes(q)).slice(0, 8);
   if (results.length === 0) { searchResults.classList.remove('open'); return; }
   searchResults.innerHTML = results.map((f, i) => `
-    <div class="search-item" onclick="openModal(${FOODS.indexOf(f)})">
+    <div class="search-item" onclick="openModalDirect(${i}, ${JSON.stringify(results).indexOf(JSON.stringify(f))})">
       <div>
         <span class="search-item-name">${f.name}</span>
-        <span class="search-item-unit" style="color:var(--muted)"> / ${f.unit}</span>
+        ${f.custom ? '<span style="font-size:9px;background:rgba(201,184,232,.3);border-radius:6px;padding:1px 5px;margin-left:4px;color:#9b7fc7">custom</span>' : ''}
+        <span class="search-item-unit" style="color:var(--muted)"> / ${f.unit||'porsi'}</span>
       </div>
       <span class="search-item-cal">${f.cal} kcal</span>
     </div>
   `).join('');
+  // store results for openModalDirect
+  window._lastResults = results;
   searchResults.classList.add('open');
 });
 
@@ -637,6 +645,20 @@ document.addEventListener('click', e => {
 });
 
 // ─── MODAL ────────────────────────────────────────────────────────────────────
+function openModalDirect(i) {
+  const f = window._lastResults[i];
+  if (!f) return;
+  pendingFood = f;
+  portionCount = 1;
+  document.getElementById('modalFoodName').textContent = f.name;
+  document.getElementById('modalFoodBase').textContent = `${f.cal} kcal per ${f.unit||'porsi'}`;
+  document.getElementById('portionUnit').textContent = f.unit||'porsi';
+  updatePortionUI();
+  document.getElementById('modalOverlay').classList.add('open');
+  searchResults.classList.remove('open');
+  searchInput.value = '';
+}
+
 function openModal(foodIdx) {
   pendingFood = FOODS[foodIdx];
   portionCount = 1;
@@ -686,9 +708,16 @@ function addManual() {
   if (!name || isNaN(cal) || cal <= 0) {
     alert('Isi nama makanan dan kalori ya!'); return;
   }
+  // Save to custom database if not already there
+  const exists = customFoods.some(f => f.name.toLowerCase() === name.toLowerCase());
+  if (!exists) {
+    customFoods.unshift({ name, cal, carb:0, protein:0, fat:0, unit:'porsi' });
+    if (customFoods.length > 50) customFoods = customFoods.slice(0, 50); // max 50
+  }
   addToLog({ name, cal, carb: 0, protein: 0, fat: 0, detail: 'input manual' });
   document.getElementById('manualName').value = '';
   document.getElementById('manualCal').value = '';
+  save();
   spawnParticles();
 }
 

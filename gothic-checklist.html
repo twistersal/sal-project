@@ -565,10 +565,10 @@ const SCHEDULE = {
         { id:'km_bp', time:'05:20', cat:'skincare', emoji:'🧴', text:'Bodycare Pagi', sub:'Vaseline Gluta-Hya / Scarlett Whitening ke seluruh badan → sunscreen badan Azarine SPF 50 ke area bekas scabies' },
         { id:'km3', time:'05:30', cat:'meal', emoji:'🥣', text:'Sarapan', sub:'Roti gandum + telur dadar bayam ⭐ + jeruk' },
         { id:'km_h2', time:'09:00', cat:'meal', emoji:'💧', text:'Minum air', sub:'Minimal 1 gelas — target 2.5L/hari 🌊' },
-        { id:'km_h1', time:'06:30', cat:'meal', emoji:'💧', text:'Minum air', sub:'Minimal 1 gelas — target 2.5L/hari 🌊' },
       ],
       '📚 Kuliah': [
         { id:'km4', time:'09:40', cat:'study', emoji:'📚', text:'Mikrotektum', sub:'09:40 – 10:30' },
+        { id:'km_h1', time:'09:30', cat:'meal', emoji:'💧', text:'Minum air', sub:'Minimal 1 gelas — target 2.5L/hari 🌊' },
       ],
       '💪 Workout': [
         { id:'km5', time:'10:45', cat:'workout', emoji:'💪', text:'Pilates Sculpt', sub:'Hip thrust, sumo squat, fire hydrant — 1 jam' },
@@ -759,14 +759,10 @@ function evaluateDay(dateS, dayName) {
     // Past day: if all checked → complete, else missed
     return checked === total ? 'complete' : 'missed';
   } else {
-    // Today: if any locked+unchecked → broken, else check all
-    const anyMissed = items.some(it => {
-      const locked = nowMins() > timeToMins(it.time) + 30;
-      return locked && !state[itemKey(dateS, it.id)];
-    });
-    if (anyMissed) return 'missed';
+    // Today: partial or complete based on how many checked
     if (checked === total) return 'complete';
-    return 'partial';
+    if (checked > 0) return 'partial';
+    return null;
   }
 }
 

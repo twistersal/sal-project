@@ -2,20 +2,21 @@
   "name": "My Corner — Personal Guide",
   "short_name": "My Corner",
   "description": "Panduan gaya hidup pribadi — jadwal, checklist, kalori tracker",
-  "start_url": "/index.html",
+  "start_url": "/sal-project/index.html",
+  "scope": "/sal-project/",
   "display": "standalone",
   "background_color": "#faf7f2",
   "theme_color": "#d4858a",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "/sal-project/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "/sal-project/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -24,13 +25,13 @@
   "shortcuts": [
     {
       "name": "Daily Checklist",
-      "url": "/pastel-checklist.html",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "url": "/sal-project/pastel-checklist.html",
+      "icons": [{ "src": "/sal-project/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Kalori Tracker",
-      "url": "/pastel-kalori.html",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "url": "/sal-project/pastel-kalori.html",
+      "icons": [{ "src": "/sal-project/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

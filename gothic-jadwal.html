@@ -422,6 +422,14 @@
   .back-nav a:hover { color: #e8e0d8; border-color: rgba(139,26,47,0.7); }
 
 </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d4858a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Corner">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 <div class="back-nav"><a href="gothic-home.html">← home</a></div>
@@ -1800,6 +1808,13 @@
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
     else init();
   })();
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
   </script>
 </body>
 </html>

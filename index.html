@@ -61,6 +61,14 @@
     .cursor{display:none;}
   }
 </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d4858a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Corner">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 <div class="cursor" id="cursor"></div>
@@ -78,7 +86,7 @@
     <div class="floats" id="gFloats"></div>
     <div class="side-content">
       <div class="gothic-eyebrow">— edisi gelap —</div>
-      <h1 class="gothic-title">Dark<br><span>Bite</span></h1>
+      <h1 class="gothic-title">Dark<br><span>Codex</span></h1>
       <p class="gothic-desc">gothic & minimal · discipline energy<br>forged in silence, refined in shadow</p>
       <a href="gothic-home.html" class="gothic-btn">enter →</a>
     </div>
@@ -96,5 +104,12 @@
   function ss(){const el=document.createElement('span');el.className='sym';el.textContent=syms[Math.floor(Math.random()*syms.length)];el.style.left=Math.random()*100+'%';const d=10+Math.random()*12;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*3+'s';gc.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
   for(let i=0;i<8;i++)setTimeout(ss,i*600);setInterval(ss,2500);
 </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
 </body>
 </html>

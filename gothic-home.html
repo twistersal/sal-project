@@ -47,6 +47,14 @@
   .card-link:hover .card-arrow{color:var(--crimson-light);transform:translateX(4px);}
   .footer{font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--text-dim);opacity:0;animation:up .6s .75s ease both;}
 </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d4858a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Corner">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 <div class="glow glow-1"></div><div class="glow glow-2"></div>
@@ -89,5 +97,12 @@
   function sp(){const el=document.createElement('span');el.className='symbol';el.textContent=s[Math.floor(Math.random()*s.length)];el.style.left=Math.random()*100+'vw';const d=12+Math.random()*14;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*3+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
   for(let i=0;i<10;i++)setTimeout(sp,i*800);setInterval(sp,3500);
 </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
 </body>
 </html>

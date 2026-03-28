@@ -407,6 +407,14 @@
   .back-nav a:hover { color: #3a3240; border-color: rgba(201,184,232,0.7); background: rgba(255,255,255,0.9); }
 
 </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d4858a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Corner">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 <div class="back-nav"><a href="pastel-home.html">← home</a></div>
@@ -1094,5 +1102,12 @@ setInterval(() => {
   checkAndSaveToday();
 }, 60000);
 </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
 </body>
 </html>

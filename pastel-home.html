@@ -45,6 +45,14 @@
   .today{display:inline-block;background:rgba(201,184,232,.2);border:1px solid rgba(201,184,232,.3);border-radius:99px;padding:4px 14px;font-size:.72rem;color:#9b7fc7;margin-bottom:28px;opacity:0;animation:fadeUp .6s .3s ease both;}
   .footer{font-size:.72rem;color:var(--text-muted);font-weight:300;opacity:0;animation:fadeUp .6s .6s ease both;}
 </style>
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#d4858a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="My Corner">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 <div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
@@ -91,5 +99,12 @@
   function sp(){const el=document.createElement('span');el.className='petal';el.textContent=p[Math.floor(Math.random()*p.length)];el.style.left=Math.random()*100+'vw';el.style.fontSize=(0.6+Math.random()*.8)+'rem';const d=8+Math.random()*10;el.style.animationDuration=d+'s';el.style.animationDelay=Math.random()*4+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),(d+4)*1000);}
   for(let i=0;i<12;i++)setTimeout(sp,i*600);setInterval(sp,3000);
 </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
 </body>
 </html>

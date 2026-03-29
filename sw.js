@@ -1,4 +1,4 @@
-const CACHE = 'mycorner-v2';
+const CACHE = 'mycorner-v3';
 const BASE = '/sal-project';
 const ASSETS = [
   BASE + '/',

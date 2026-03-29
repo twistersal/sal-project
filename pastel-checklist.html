@@ -962,7 +962,7 @@ function refreshLockStates() {
 }
 
 function spawnParticle(x, y) {
-  const emojis = ['✦','†','◆','✧','★','·'];
+  const emojis = ['🌸','✨','💫','🌟','🌷','💕','⭐'];
   const el = document.createElement('span');
   el.className = 'particle';
   el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -1055,9 +1055,9 @@ function buildPanels() {
 
     html += `
       <div class="celebration" id="cel-${day}">
-        <span class="cel-emoji">✦ ✦ ✦</span>
-        <div class="cel-title">Ritual ${day} selesai!</div>
-        <div class="cel-sub">rest well, rise stronger.</div>
+        <span class="cel-emoji">🌸✨🌸</span>
+        <div class="cel-title">${day} selesai!</div>
+        <div class="cel-sub">kamu luar biasa hari ini. istirahat yang baik 💕</div>
       </div>
     `;
 
